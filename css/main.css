@@ -226,51 +226,51 @@ h6 {
   margin: 10px 0;
 }
 h1 {
-  font-size: 30px;
+  font-size: 28px;
 }
 @media (max-width: 767px) {
   h1 {
-    font-size: 26px;
+    font-size: 24px;
   }
 }
 h2 {
-  font-size: 24px;
+  font-size: 20px;
 }
 @media (max-width: 767px) {
   h2 {
-    font-size: 20px;
+    font-size: 16px;
   }
 }
 h3 {
-  font-size: 18px;
-}
-@media (max-width: 767px) {
-  h3 {
-    font-size: 14px;
-  }
-}
-h4 {
   font-size: 12px;
 }
 @media (max-width: 767px) {
-  h4 {
+  h3 {
     font-size: 8px;
   }
 }
+h4 {
+  font-size: 4px;
+}
+@media (max-width: 767px) {
+  h4 {
+    font-size: 0px;
+  }
+}
 h5 {
-  font-size: 6px;
+  font-size: -4px;
 }
 @media (max-width: 767px) {
   h5 {
-    font-size: 2px;
+    font-size: -8px;
   }
 }
 h6 {
-  font-size: 0px;
+  font-size: -12px;
 }
 @media (max-width: 767px) {
   h6 {
-    font-size: -4px;
+    font-size: -16px;
   }
 }
 p {
@@ -1563,7 +1563,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffbe2a;
+  background: #47c446;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2396,13 +2396,13 @@ pre,
   margin: 0;
 }
 .post-body h1 {
-  padding-left: 5px;
-  background-color: #ddd;
   font-weight: normal;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  font-size: 32px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .post-body h2 {
+  font-size: 22px;
   font-weight: normal;
 }
 hr {
