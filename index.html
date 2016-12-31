@@ -230,6 +230,353 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/22/JavaScript学习笔记（8） - JavaScript中的面向对象技术/" itemprop="url">
+                  JavaScript学习笔记（7） - JavaScript中的面向对象技术
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-22T21:52:00+08:00" content="2016-11-22">
+              2016-11-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>之前我们已经讨论类JavaScript中类的基础知识，本节我们将利用这些知识学习如何利进行面向对象编程</p>
+<h2 id="利用JavaScript实现一个集合类"><a href="#利用JavaScript实现一个集合类" class="headerlink" title="利用JavaScript实现一个集合类"></a>利用JavaScript实现一个集合类</h2><p>集合（set）是一种数据结构，用以表示非重复值的无序集合，集合的基础方法包括添加值、检测值是否在集合中,以下代码将实现一个通用的set集合类：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">set</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">this</span>.values = &#123;&#125;;				<span class="comment">//集合数据保存在对象的属性里</span></div><div class="line">	<span class="keyword">this</span>.n = <span class="number">0</span>;						<span class="comment">//集合中值得个数</span></div><div class="line">	<span class="keyword">this</span>.add.apply(<span class="keyword">this</span>,<span class="built_in">arguments</span>);	<span class="comment">//将所有参数都添加进这个集合里</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//在函数原型对象中定义将所有参数添加进集合的函数</span></div><div class="line">set.prototype.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; <span class="built_in">arguments</span>.length; i++)&#123;</div><div class="line">		<span class="keyword">var</span> val = <span class="built_in">arguments</span>[i];</div><div class="line">		<span class="keyword">var</span> str = <span class="built_in">Set</span>.v2s(val);</div><div class="line">		<span class="keyword">if</span>(!<span class="keyword">this</span>.values.hasOwnProperty(str))&#123;</div><div class="line">		<span class="keyword">this</span>.values[str] = val;</div><div class="line">			<span class="keyword">this</span>.n++;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//如何集合包含这个值，则返回true，否则，返回false</span></div><div class="line"><span class="built_in">Set</span>.prototype.contains = <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.values.hasOwnProperty(<span class="built_in">Set</span>.v2s(value));</div><div class="line">&#125;;</div><div class="line"><span class="comment">//返回集合的大小</span></div><div class="line"><span class="built_in">Set</span>.prototype.size=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.n;</div><div class="line">&#125;</div><div class="line"><span class="comment">//遍历集合中的所有元素，在指定的上下文调用f</span></div><div class="line"><span class="built_in">Set</span>.prototype.foreach = <span class="function"><span class="keyword">function</span>(<span class="params">f, context</span>)</span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> s <span class="keyword">in</span> <span class="keyword">this</span>.values)&#123;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.values.hasOwnProperty(s))&#123;</div><div class="line">			f.call(context, <span class="keyword">this</span>.values[s])</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//这是一个内部函数，用以将任意JavaScript值和唯一的字符串对应起来</span></div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/18/JavaScript学习笔记（7） - JavaScript中的类 /" itemprop="url">
+                  JavaScript学习笔记（7） - 类与模块
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-18T21:32:00+08:00" content="2016-11-18">
+              2016-11-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在JavaScript中，类的实现是基于原型集成机制的。如果两个对象实例都是从同一个原型对象上继承属性，我们说他们是同一个类的实例。JavaScript类的一个重要的特性就是“动态可继承”</p>
+<h2 id="通过工厂函数的方式创建类"><a href="#通过工厂函数的方式创建类" class="headerlink" title="通过工厂函数的方式创建类"></a>通过工厂函数的方式创建类</h2><p>在JavaScript中，类的所有实例对象都从同一个原型对象上继承属性。因此原型对象是类的核心，通常是通过定义一个函数来创建并初始化新对象，如下代码中inherit()函数将返回一个新创建的对象，新对象继承自inherit函数中指定的原型对象,<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//inherit()函数返回了一个继承自原型对象p的属性的新对象</span></div><div class="line"><span class="comment">//这里使用ECMAScript5中的Object.create()函数（如果存在的话）</span></div><div class="line"><span class="comment">//如果不存在Obejct.create()，则退化使用ECMAScript3支持的方式</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inherit</span>(<span class="params">p</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span>(p == <span class="literal">null</span>)&#123;</div><div class="line">		<span class="keyword">throw</span> <span class="built_in">TypeError</span>();</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//如果支持ECMAScript5的Obejct.create语法</span></div><div class="line">	<span class="comment">//则直接用Obejct.create()生成一个对象并将其原型属性设置为</span></div><div class="line">	<span class="keyword">if</span>(<span class="built_in">Object</span>.create)&#123;				</div><div class="line">		<span class="keyword">return</span> <span class="built_in">Object</span>.create(p);</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//进一步检查传入参数p的类型</span></div><div class="line">	<span class="keyword">var</span> t = <span class="keyword">typeof</span> p;						</div><div class="line">	<span class="keyword">if</span>(t !== <span class="string">"object"</span> &amp;&amp; t != <span class="string">"function"</span>)&#123;</div><div class="line">		<span class="keyword">throw</span> <span class="built_in">TypeError</span>();</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//声明一个空构造函数f</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">	<span class="comment">//将f的原型属性设置为p			</span></div><div class="line">	f.prototype = p;			</div><div class="line">	<span class="keyword">return</span> <span class="keyword">new</span> f();</div><div class="line">&#125;</div><div class="line">                                                                    </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">range</span>(<span class="params">from, to</span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> r = inherit(range.methods);</div><div class="line">	r.from = <span class="keyword">from</span>;</div><div class="line">	r.to = to;</div><div class="line">	<span class="keyword">return</span> r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">range.methods = &#123;</div><div class="line">	<span class="comment">//此函数用于判断参数x是否在范围内，如果在范围内则返回true；否则返回false</span></div><div class="line">	<span class="comment">//这个方法可以比较数字范围，也可以比较字符串和日期范围</span></div><div class="line">	includes:<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.from &lt;= x &amp;&amp; x &lt;= <span class="keyword">this</span>.to;</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//对于范围内的每个整数都调用一次f</span></div><div class="line">	<span class="comment">//这个方法只可用于数字范围确定</span></div><div class="line">	foreach: <span class="function"><span class="keyword">function</span>(<span class="params">f</span>)</span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> x = <span class="built_in">Math</span>.ceil(<span class="keyword">this</span>.from); x &lt;= <span class="keyword">this</span>.to; x++)&#123;</div><div class="line">			f(x)</div><div class="line">		&#125;		</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">toString</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> f = range(<span class="number">1</span>, <span class="number">3</span>);</div><div class="line">r.includes(<span class="number">2</span>) <span class="comment">//=&gt; true 2在这个范围内</span></div><div class="line">r.foreach(<span class="built_in">console</span>.log)	<span class="comment">//输出1, 2, 3</span></div></pre></td></tr></table></figure></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/11/18/JavaScript学习笔记（7） - JavaScript中的类 /#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/06/JavaScript学习笔记（6） - 函数式编程/" itemprop="url">
+                  JavaScript学习笔记（6） - 函数式编程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-06T21:01:00+08:00" content="2016-11-06">
+              2016-11-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>JavaScript不是函数式编程语言，但在JavaScript中可以像操控对象一样操控函数，也就说可以在JavaScript中应用函数式编程技术。</p>
+<h2 id="使用函数处理数组"><a href="#使用函数处理数组" class="headerlink" title="使用函数处理数组"></a>使用函数处理数组</h2><p>假设有一个数组，数组元素都是数字，我们想要计算这些元素的平均值和标准差，若使用非函数式编程风格的话，代码会是下面的样子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> data = [<span class="number">1</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">5</span>];</div><div class="line"></div><div class="line"><span class="comment">//求平均数就是将所有的元素累加后的值除以元素的个数</span></div><div class="line"><span class="keyword">var</span> total = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i&lt;data.length; i++)&#123;</div><div class="line">	total += data[i];</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> mean = total/data.length;</div><div class="line"><span class="comment">//求标准差就是每个元素减去平均数之后偏差的平方然后求和</span></div><div class="line">total = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i&lt; data.length; i++)&#123;</div><div class="line">	<span class="keyword">var</span> deviation = data[i]-mean;</div><div class="line">	total += deviation * deviation;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> stddev = <span class="built_in">Math</span>.sqrt(total/(data.length <span class="number">-1</span>))</div></pre></td></tr></table></figure></p>
+<p>可以使用数组方法map()reduce()来实现同样的计算，代码显得极其简洁<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">x,y</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> x+y;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> squre = <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> x*y;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</div><div class="line"><span class="comment">//求平均数</span></div><div class="line"><span class="keyword">var</span> mean = data.reduce(sum)/data.length;</div><div class="line"><span class="comment">//将数组中的每个元素减去平均值然后返回新的数组</span></div><div class="line"><span class="keyword">var</span> deviations = data.map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x-mean;&#125;);</div><div class="line"><span class="comment">//将返回的新数组调用map函数使求得每个元素的平方然后再返回一个新的数组</span></div><div class="line"><span class="comment">//然后再将重新返回的数组调用reduce函数使各元素值相加</span></div><div class="line"><span class="keyword">var</span> stddev = <span class="built_in">Math</span>.sqrt(deviations.map(squre).reduce(sum)/(data.length <span class="number">-1</span>));</div></pre></td></tr></table></figure></p>
+<h2 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h2><p>高阶函数就是操作函数的函数，它接收一个或多个函数作为参数，并返回一个函数，代码如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//这个高阶函数返回一个新的函数，这个新函数将他的实参传入f()</span></div><div class="line"><span class="comment">//并返回f的返回值的逻辑非</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">not</span>(<span class="params">f</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">var</span> result = f.apply(<span class="keyword">this</span>,<span class="built_in">arguments</span>);</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//判断x是否为偶数的函数</span></div><div class="line"><span class="keyword">var</span> even = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> x % <span class="number">2</span> === <span class="number">0</span>;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//一个新函数，所做的事情和even()相反</span></div><div class="line"><span class="keyword">var</span> odd = not(even);</div><div class="line">[<span class="number">1</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">5</span>].every(odd); <span class="comment">// =&gt; true:每个元素都是奇数;</span></div></pre></td></tr></table></figure></p>
+<p>上面的not()函数就是一个高阶函数，因为它接收一个函数作为参数，并返回一个新的函数。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/29/JavaScript学习笔记（5） - 函数/" itemprop="url">
                   JavaScript学习笔记（5） - 函数
                 </a>
@@ -292,7 +639,7 @@
 
       
         
-          <h1 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h1><p>在JavaScript中有4种方式来调用JavaScript函数</p>
+          <h1 id="一、调用函数"><a href="#一、调用函数" class="headerlink" title="一、调用函数"></a>一、调用函数</h1><p>在JavaScript中有4种方式来调用JavaScript函数</p>
 <ul>
 <li>作为函数</li>
 <li>作为方法</li>
@@ -720,8 +1067,124 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/13/设计模式学习笔记（1） - 对象创建型模式/" itemprop="url">
-                  设计模式学习笔记（1） - 对象创建型模式
+                <a class="post-title-link" href="/2016/10/16/设计模式学习笔记（3） - 对象行为型模式/" itemprop="url">
+                  设计模式学习笔记（3） - 对象行为型模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-16T18:06:00+08:00" content="2016-10-16">
+              2016-10-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>策略模式定义了算法家族并将它们封装起来，让他们之间可以互相替换，此模式让算法变化而不会影响到使用算法的客户</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>商场经常会进行各式各样的促销活动，这就要求收银软件需要按照不同的促销方式来对顾客的最终费用进行计算，这里的促销方式其实就是各类打折算法，并且这些算法之间还可以互相替换而不影响到使用这些算法的客户端也就是前面说的收银软件。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/10/16/设计模式学习笔记（3） - 对象行为型模式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/13/设计模式学习笔记（2） - 对象结构型模式 /" itemprop="url">
+                  设计模式学习笔记（2） - 对象结构型模式
                 </a>
               
             
@@ -782,9 +1245,14 @@
 
       
         
-          <h1 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h1><h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteProductA</span> <span class="keyword">extends</span> <span class="title">Product</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"简单工厂A"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteProductB</span> <span class="keyword">extends</span> <span class="title">Product</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"简单工厂A"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimpleFactory</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> Product <span class="title">newInstance</span><span class="params">(String type)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(type == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type.equals(<span class="string">"a"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductA();</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type.equals(<span class="string">"b"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductB();</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <h1 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>将一个类的接口转换成客户希望的另外一个接口，适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>适配器模式主要应用于希望复用一些现存的类，但是接口又与复用环境要求不一致的情况,适配器模式分为三种，类适配器模式，对象适配器模式，接口适配器模式，他们的各自适用场景：</p>
+<p>类的适配器模式：当希望将一个类转换成满足另一个新接口的类时，可以使用类的适配器模式，创建一个新类，继承原有的类，实现新的接口即可。</p>
+<p>对象的适配器模式：当希望将一个对象转换成满足另一个新接口的对象时，可以创建一个Wrapper类，持有原类的一个实例，在Wrapper类的方法中，调用实例的方法就行。</p>
+<p>接口的适配器模式：当不希望实现一个接口中所有的方法时，可以创建一个抽象类Wrapper，实现所有方法，我们写别的类的时候，继承抽象类即可</p>
+<h2 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h2><p><img src="/images/设计模式/建造者模式.png" alt="建造者模式" title="建造者模式"></p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/13/设计模式学习笔记（1） - 对象创建型模式/#more" rel="contents">
+            <a class="btn" href="/2016/10/13/设计模式学习笔记（2） - 对象结构型模式 /#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -835,8 +1303,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/10/10/JavaScript学习笔记（1） - 表达式和运算符/" itemprop="url">
-                  JavaScript学习笔记（1） - 表达式和运算符
+                <a class="post-title-link" href="/2016/10/11/设计模式学习笔记（1） - 对象创建型模式/" itemprop="url">
+                  设计模式学习笔记（1） - 对象创建型模式
                 </a>
               
             
@@ -849,8 +1317,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-10T22:14:00+08:00" content="2016-10-10">
-              2016-10-10
+            <time itemprop="dateCreated" datetime="2016-10-11T18:06:00+08:00" content="2016-10-11">
+              2016-10-11
             </time>
           </span>
 
@@ -863,8 +1331,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
                   </a>
                 </span>
 
@@ -897,10 +1365,9 @@
 
       
         
-          <h1 id="原始表达式"><a href="#原始表达式" class="headerlink" title="原始表达式"></a>原始表达式</h1><h2 id="直接量"><a href="#直接量" class="headerlink" title="直接量"></a>直接量</h2><p>直接量是直接在程序中出现的常数值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"hello"</span></div></pre></td></tr></table></figure></p>
-<h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><p>JavaScript的一些保留字构成了原始表达式<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="literal">true</span> </div><div class="line"><span class="literal">false</span></div><div class="line"><span class="literal">null</span></div><div class="line"><span class="keyword">this</span></div></pre></td></tr></table></figure></p>
+          <h1 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h1><h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteProductA</span> <span class="keyword">extends</span> <span class="title">Product</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"简单工厂A"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteProductB</span> <span class="keyword">extends</span> <span class="title">Product</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"简单工厂A"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimpleFactory</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> Product <span class="title">newInstance</span><span class="params">(String type)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(type == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type.equals(<span class="string">"a"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductA();</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type.equals(<span class="string">"b"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductB();</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/10/JavaScript学习笔记（1） - 表达式和运算符/#more" rel="contents">
+            <a class="btn" href="/2016/10/11/设计模式学习笔记（1） - 对象创建型模式/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -933,6 +1400,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
