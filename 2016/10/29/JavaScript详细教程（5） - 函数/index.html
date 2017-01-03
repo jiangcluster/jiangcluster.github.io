@@ -1,0 +1,573 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript 学习笔记," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="一、调用函数在JavaScript中有4种方式来调用JavaScript函数
+
+作为函数
+作为方法
+作为构造函数
+通过他们的call()和apply()方法间接调用
+
+作为函数调用根据es3和非严格的es5对函数调用的规定，调用上下文（this的值）是全局对象。在严格模式下，调用上下文则是undefined
+以函数形式调用的函数通常不适用this关键字。不过，”this”可以用来判断当前是否是严格">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript详细教程（5） - 函数">
+<meta property="og:url" content="http://yoursite.com/2016/10/29/JavaScript详细教程（5） - 函数/index.html">
+<meta property="og:site_name" content="姜蜀黍的记事本">
+<meta property="og:description" content="一、调用函数在JavaScript中有4种方式来调用JavaScript函数
+
+作为函数
+作为方法
+作为构造函数
+通过他们的call()和apply()方法间接调用
+
+作为函数调用根据es3和非严格的es5对函数调用的规定，调用上下文（this的值）是全局对象。在严格模式下，调用上下文则是undefined
+以函数形式调用的函数通常不适用this关键字。不过，”this”可以用来判断当前是否是严格">
+<meta property="og:updated_time" content="2016-12-31T08:22:20.622Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript详细教程（5） - 函数">
+<meta name="twitter:description" content="一、调用函数在JavaScript中有4种方式来调用JavaScript函数
+
+作为函数
+作为方法
+作为构造函数
+通过他们的call()和apply()方法间接调用
+
+作为函数调用根据es3和非严格的es5对函数调用的规定，调用上下文（this的值）是全局对象。在严格模式下，调用上下文则是undefined
+以函数形式调用的函数通常不适用this关键字。不过，”this”可以用来判断当前是否是严格">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/10/29/JavaScript详细教程（5） - 函数/"/>
+
+
+  <title> JavaScript详细教程（5） - 函数 | 姜蜀黍的记事本 </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">姜蜀黍的记事本</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            时间轴
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript详细教程（5） - 函数
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-29T21:29:00+08:00" content="2016-10-29">
+              2016-10-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、调用函数"><a href="#一、调用函数" class="headerlink" title="一、调用函数"></a>一、调用函数</h1><p>在JavaScript中有4种方式来调用JavaScript函数</p>
+<ul>
+<li>作为函数</li>
+<li>作为方法</li>
+<li>作为构造函数</li>
+<li>通过他们的call()和apply()方法间接调用</li>
+</ul>
+<h2 id="作为函数调用"><a href="#作为函数调用" class="headerlink" title="作为函数调用"></a>作为函数调用</h2><p>根据es3和非严格的es5对函数调用的规定，调用上下文（this的值）是全局对象。在严格模式下，调用上下文则是undefined</p>
+<p>以函数形式调用的函数通常不适用this关键字。不过，”this”可以用来判断当前是否是严格模式</p>
+<a id="more"></a>
+<h2 id="作为方法调用"><a href="#作为方法调用" class="headerlink" title="作为方法调用"></a>作为方法调用</h2><p>作为方法调用时，对象o成为调用上下文，函数体可以使用关键字this引用该对象</p>
+<p>关键字this没有作用于的限制，嵌套的函数不会从调用它的函数中继承this.如果嵌套函数作为方法调用，其this的值指向调用它的对象。如果嵌套函数作为函数调用，其this值不是全局对象（非严格模式下）就是undefined（严格模式下）</p>
+<p>注意：很多人会误认为调用嵌套函数时this会指向调用外层函数的上下文。如果你想要访问这个外部函数的this值，需要将this的值保存在一个变量里，这个变量和内部函数都同在一个作用域内。通常使用变量self来保存this<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">    <span class="attr">m</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span> === o);</div><div class="line">        f();</div><div class="line">        </div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span> === o);</div><div class="line">            <span class="built_in">console</span>.log(self === o);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">o.m();</div></pre></td></tr></table></figure></p>
+<h2 id="构造函数调用"><a href="#构造函数调用" class="headerlink" title="构造函数调用"></a>构造函数调用</h2><p>构造函数调用创建一个新的空对象，这个对象继承自构造函数的prototype属性，构造函数试图初始化这个新创建的对象，并将这个对象用做其调用上下文，因此构造函数可以使用this关键字来引用这个新创建的对象（详见下面“this与上下文（Context）”章节）</p>
+<p>尽管构造函数看起来像一个方法调用，它依然会使用这个新对象作为调用上下文，也就是说在表达式new o.m()中调用上下文并不是o而是新创建的这个对象</p>
+<h2 id="间接调用"><a href="#间接调用" class="headerlink" title="间接调用"></a>间接调用</h2><p>使用call()和apply()可以用来间接调用函数，这两个方法都允许显式指定调用所需的this值，也就是说任何函数都可以作为任何对象的方法来调用，哪怕这个函数不是那个对象的方法。</p>
+<p>两个方法都可以指定调用的实参，call()方法使用它自有的实参列表作为函数的实参，apply()方法则要求以数组的形式传入参数</p>
+<h1 id="二、函数的实参和形参"><a href="#二、函数的实参和形参" class="headerlink" title="二、函数的实参和形参"></a>二、函数的实参和形参</h1><h2 id="可选形参"><a href="#可选形参" class="headerlink" title="可选形参"></a>可选形参</h2><p>当调用函数的时候传入的实参比函数声明时指定的形参个数要少，剩下的形参都将设置为undefined值。因此在调用函数时形参是否可选以及是否可以省略应当保持较好的适应性，为了做到这一点，应当给省略的参数赋一个合理的默认值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getpropertyNames</span>(<span class="params">o, <span class="regexp">/*optional*/</span> a</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(a == <span class="literal">undefined</span>) a = [];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第一行代码也可以不适用if语句，可以使用“||”运算符，<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a = a || [];</div></pre></td></tr></table></figure></p>
+<h2 id="可变长的实参列表：实参对象"><a href="#可变长的实参列表：实参对象" class="headerlink" title="可变长的实参列表：实参对象"></a>可变长的实参列表：实参对象</h2><p>当调用函数的时候传入的实参个数超过函数定义时的形参个数时，没有办法直接获得未命名值得引用。参数对象解决了这个问题，在函数体内，标识符arguments是指向实参对象的引用，实参对象是一个类数组对象，这样可以通过数字下标就能访问传入函数的实参值</p>
+<p>假设定义了函数f，它的实参只有一个x。如果调用这个函数时传入两个实参，第一个实参可以通过参数名x来获得，也可以通过arguments[0]来得到。第二个实参智能通过用以标识其所含元素的个数。因此，如果调用函数f()时传入两个参数。arguments，length的值就是2</p>
+<h2 id="将对象属性用做实参"><a href="#将对象属性用做实参" class="headerlink" title="将对象属性用做实参"></a>将对象属性用做实参</h2><p>当一个函数包含超过三个形参时，尽量使用名值对的形式来传入参数。为了实现这种风格的方法调用，定义函数的时候，传入的实参都写入一个单独的对象之中</p>
+<h2 id="实参类型"><a href="#实参类型" class="headerlink" title="实参类型"></a>实参类型</h2><p>JavaScript方法的形参并未声明类型，在形参传入函数提之前也未做到任何类型检查，可以通过语义化的单词来给函数实参命名，也可以给实参补充注释，对于可选的实参来说，可以在注释中补充下这个实参是可选的，当一个方法可以接收任意数量的实参时，可以使用省略号</p>
+<h1 id="三、自定义函数属性"><a href="#三、自定义函数属性" class="headerlink" title="三、自定义函数属性"></a>三、自定义函数属性</h1><p>JavaScript中的函数并不是原始值，而是一种特殊对象，也就说，函数可以拥有属性，当函数需要一个“静态”变量来在调用时保持某个值不变，最方便的方式的方式就是给函数定义属性，而不是定义全局变量<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//初始化函数对象的计数器属性</span></div><div class="line"><span class="comment">//由于函数声明被提前了，因此这里是可以在函数声明致歉</span></div><div class="line"><span class="comment">//给它的成员赋值</span></div><div class="line">uniqueInterger.counter = <span class="number">0</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">uniqueInteger</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> uniqueInteger.counter++;</div><div class="line">    <span class="comment">//先返回计数器的值，然后计数器自动加一</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="四、作为命名空间的函数"><a href="#四、作为命名空间的函数" class="headerlink" title="四、作为命名空间的函数"></a>四、作为命名空间的函数</h1><p>在函数中声明的变量在整个函数体内都是可见的（包括嵌套的函数中）,在函数的外部是不可见的。不在任何函数内声明的变量是全局变量，在整个JavaScript程序中都是可见的。在JavaScript中是无法声明只在一个代码块内可见的变量的，基于这个原因，我们常常简单地定义一个函数用做临时的命名空间，这个命名空间内定义的变量都不会污染到全局命名空间<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mymodule</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//模块代码，这个模块所使用的所有变量都是局部变量</span></div><div class="line">&#125;</div><div class="line">mymodule();<span class="comment">//定义完成后好记得调用这个函数</span></div><div class="line"></div><div class="line">以上代码可以简化成以下写法：</div><div class="line"></div><div class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//模块代码</span></div><div class="line">    &#125;())</div></pre></td></tr></table></figure></p>
+<p>这种定义匿名函数并立即在单个表达式中调用它的写法非常常见，已经成为一种惯用用法</p>
+<h1 id="五、作用域与上下文"><a href="#五、作用域与上下文" class="headerlink" title="五、作用域与上下文"></a>五、作用域与上下文</h1><h2 id="执行上下文（execution-context）"><a href="#执行上下文（execution-context）" class="headerlink" title="执行上下文（execution context）"></a>执行上下文（execution context）</h2><p>执行上下文（简称上下文）决定了Java执行过程中可以获取哪些变量、函数、数据。一段程序可能被分割成许多不同的上下文，每一个上下文都会绑定一个变量对象（variable object），它就像一个容器，用来存储当前上下文中所有已定义或可获取的变量、函数等。位于最顶端或最外层的上下文称为全局上下文（global context），全局上下文取决于执行环境，如Node中的global和Browser中的window：</p>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p>执行上下文与作用域（scope）是不同的概念。Js本身是单线程的，每当有function被执行时，就会产生一个新的上下文，这一上下文会被压入Js的上下文堆栈（context stack）中，function执行结束后则被弹出，因此Js解释器总是在栈顶上下文中执行。在生成新的上下文时，首先会绑定该上下文的变量对象，其中包括arguments和该函数中定义的变量；之后会创建属于该上下文的作用域链（scope chain），最后将this赋予这一function所属的Object，</p>
+<h2 id="this与上下文（Context）"><a href="#this与上下文（Context）" class="headerlink" title="this与上下文（Context）"></a>this与上下文（Context）</h2><p>上下文通常取决于函数是如何被调用的。当一个函数被作为对象中的一个方法被调用的时候，this被设置为调用该方法的对象上，看以下代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">foo</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        alert(<span class="keyword">this</span> === obj);    </div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">obj.foo(); <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
+<p>这个准则也适用于当调用函数时使用new操作符来创建对象的实例的情况下。在这种情况下，在函数的作用域内部this的值被设置为新创建的实例，看以下代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">new</span> foo()   <span class="comment">// foo</span></div><div class="line">foo()       <span class="comment">// window</span></div></pre></td></tr></table></figure></p>
+<p>当调用一个为绑定函数时，this默认情况下是全局上下文，在浏览器中它指向window对象。需要注意的是，ES5引入了严格模式的概念， 如果启用了严格模式，此时上下文默认为undefined。</p>
+<h1 id="六、闭包"><a href="#六、闭包" class="headerlink" title="六、闭包"></a>六、闭包</h1><p>JavaScript采用词法作用域，也就是说，函数的执行以来于变量作用域，这个作用域是在函数定义时决定的，而不是函数调用时决定的。为了实现这种词法作用域，JavaScript函数对象的内部状态不仅包含函数的代码逻辑，还必须引用当前的作用域链。函数对象可以通过作用域相互关联起来，函数体内部的变量都可以保存在作用域内，这种特性称之为“闭包”</p>
+<p>从技术的角度讲，所有的JavaScript函数都是闭包：他们都是对象，他们都关联到作用域链。定义大多数函数时的作用域链在调用函数时依然有效，但这并不影响闭包。当调用函数时闭包指向的作用域链和定义函数时的作用域链不是同一个作用域链时，就引起很微妙的变化。</p>
+<p>当外部函数将嵌套的函数对象作为返回值返回的时候往往会发生这种情况</p>
+<p>注意一下函数的区别和打印值不同<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> scope = <span class="string">"global scope"</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkscope</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> scope = <span class="string">"local scope"</span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> scope;&#125;</div><div class="line">    <span class="keyword">return</span> f();</div><div class="line">&#125;</div><div class="line">checkscope()                <span class="comment">//=&gt; "local scope";</span></div></pre></td></tr></table></figure></p>
+<p>checkscope()函数声明了一个局部变量，并定义了一个函数f(),函数返回了这个变量的值，最后将函数f()的执行结果返回，对上面代码做一些更改如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> scope = <span class="string">"global scope"</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkscope</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> scope = <span class="string">"local scope"</span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> scope;&#125;</div><div class="line">    <span class="keyword">return</span> f;</div><div class="line">&#125;</div><div class="line">checkscope()();             <span class="comment">//=&gt; "local scope"</span></div></pre></td></tr></table></figure></p>
+<p>作用域链是定义的时候根据词法作用域创建的，嵌套函数f()定义在这个作用域链里，其中的变量scope一定是局部变量</p>
+<h2 id="利用闭包实现变量私有化"><a href="#利用闭包实现变量私有化" class="headerlink" title="利用闭包实现变量私有化"></a>利用闭包实现变量私有化</h2><p>我们可以利用闭包将局部变量变成私有状态<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> uniqueInteger = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                        <span class="keyword">var</span> counter = <span class="number">0</span> ;</div><div class="line">                        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> counter++;&#125;</div><div class="line">                    &#125;());</div></pre></td></tr></table></figure></p>
+<p>这里定义了一个立即调用的函数（函数开始带有左圆括号），因此是这个函数的返回赋值给uniqueInteger,当外部函数返回之后，其他任何代码都无法访问counter变量，只有内部函数才能访问它</p>
+<h2 id="利用闭包实现变量共享"><a href="#利用闭包实现变量共享" class="headerlink" title="利用闭包实现变量共享"></a>利用闭包实现变量共享</h2><p>以上代码中的counter变量不是只能用在一个单独的闭包内，在同一个外部函数内定义的多个嵌套函数也可以访问它，这多个嵌套函数都共享一个作用域链，如以下代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">counter</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> n = <span class="number">0</span>;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">count</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> n++;&#125;</div><div class="line">        reset:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;n = <span class="number">0</span>;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> c = counter(), d = counter();</div><div class="line">c.count();      <span class="comment">//=&gt; 0</span></div><div class="line">d.count();      <span class="comment">//=&gt; 0  c和d互不重叠</span></div><div class="line">c.reset();      <span class="comment">//=&gt; 0 reset()和count()方法共享状态</span></div><div class="line">d.count();      <span class="comment">//=&gt; 1</span></div></pre></td></tr></table></figure></p>
+<p>以上代码说明在同一个作用域定义了两个闭包，这两个闭包共享同样的变量。但是要特别小心不要把那些不希望共享的变量共享给了其他闭包，下面代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">constfunc</span>(<span class="params">v</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> v;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> funcs = [];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</div><div class="line">    funcs[i] = constfunc(i);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>以上代码的for循环每次创建的闭包都是会同时创建一个自己独享的作用域链和变量，但是当把循环移入定义这个闭包的函数之内时，多个闭包就会共享这个变量<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">constfunc</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> funcs = [];</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; <span class="number">10</span>; i++)&#123;</div><div class="line">        funcs[i] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> i;&#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> funcs;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="七、函数的属性、方法和构造函数"><a href="#七、函数的属性、方法和构造函数" class="headerlink" title="七、函数的属性、方法和构造函数"></a>七、函数的属性、方法和构造函数</h1><h2 id="length属性"><a href="#length属性" class="headerlink" title="length属性"></a>length属性</h2><p>在函数中arguments.length表示实际传入的实参个数，而arguments.callee.length表示期望传入的实参个数</p>
+<h2 id="prototype属性"><a href="#prototype属性" class="headerlink" title="prototype属性"></a>prototype属性</h2><p>函数都包含一个prototype属性，这个属性是指向一个对象的引用，这个对象称做“原型对象”（prototype obejct）。每一个函数都包含不同的原型对象。当将函数用做构造函数的时候，新创建的喜爱那个会从原型对象上继承属性</p>
+<h2 id="call-和apply-方法"><a href="#call-和apply-方法" class="headerlink" title="call()和apply()方法"></a>call()和apply()方法</h2><p>我们可以将call()和apply()看做是某个对象的方法，通过调用方法的形式来间接调用函数。call()和apply()的第一个实参是要调用用函数的母对象，它是调用上下文，在函数内通过this来获得对它的引用，要想以对象o的方法来调用函数f(),可以这样使用call()和apply()<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">f.call(o);</div><div class="line">f.apply(o);</div></pre></td></tr></table></figure></p>
+<p>对于call()来说，第一个调用上下文实参之后的所有实参就是要传入待调用函数的值。比如，以对象o的方法的形式调用函数f()，并传入两个参数，如下面代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">f.call(o, <span class="number">1</span>, <span class="number">2</span>);</div></pre></td></tr></table></figure></p>
+<p>apply()方法和call()类似，但传入实参的形式和call()有所不同，它的实参都放入一个数组当中：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">f.apply(o, [<span class="number">1</span>, <span class="number">2</span>]);</div></pre></td></tr></table></figure></p>
+<p>如果一个函数的实参可以是任意数量，给apply()传入的参数数组可以是任意长度的</p>
+<h2 id="bind-方法"><a href="#bind-方法" class="headerlink" title="bind()方法"></a>bind()方法</h2><p>bind()方法主要用于将函数绑定至某个对象。当在函数f()上调用bing方法并传入一个对象o作为参数，这个方法将返回一个新的函数。然后（以函数调用的方式）调用新的函数将会把原始的函数f()当做o的方法来调用。传入新函数的任何实参都将传入原始函数，例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">y</span>)</span>&#123;</div><div class="line">	returen <span class="keyword">this</span>.x + y</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">x</span>: <span class="number">1</span>&#125;;</div><div class="line"><span class="keyword">var</span> g = f.bind(o)</div><div class="line">g(<span class="number">2</span>)		<span class="comment">//=&gt; 3</span></div></pre></td></tr></table></figure></p>
+<p>ECMAScript5中bind()方法不仅仅是将函数绑定至一个对象，它还附带一些其他应用：除了第一个实参之外，传入bind()的实参也会绑定至this，这个附带的应用是一种常见的函数式编程技术，有时也被称为“柯里化”，参照下面代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> x+y;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//创建一个类似sum的新函数，但是this的值绑定到null</span></div><div class="line"><span class="comment">//并且第一个参数绑定到1，这个新的函数期望只传入一个实参</span></div><div class="line"><span class="keyword">var</span> succ = sum.bind(<span class="literal">null</span>, <span class="number">1</span>);</div><div class="line">succ(<span class="number">2</span>) <span class="comment">//=&gt; x绑定到1，并传入2作为实参y</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">y, z</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.x + y + z;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> g = f.bind(&#123;<span class="attr">x</span>:<span class="number">1</span>&#125;, <span class="number">2</span>);</div><div class="line">g(<span class="number">3</span>)	<span class="comment">//=&gt; 6：this.x绑定到1， y绑定到2， z绑定到3</span></div></pre></td></tr></table></figure></p>
+<h2 id="toString-方法"><a href="#toString-方法" class="headerlink" title="toString()方法"></a>toString()方法</h2><p>和所有的Javascript对象一样，函数也有toString()方法。大多数函数的toString()芳芳的实现都返回函数的完整源码。内置函数往往返回一个类似[native code]的字符串为函数体</p>
+<h2 id="Function-构造函数"><a href="#Function-构造函数" class="headerlink" title="Function()构造函数"></a>Function()构造函数</h2><p>不管是通过函数定义语句还是函数直接量表达式，函数的定义都要使用function关键字。但函数还可以通过Function()构造函数来定义，例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> f = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"x"</span>, <span class="string">"y"</span>, <span class="keyword">return</span> x*y;<span class="string">");</span></div></pre></td></tr></table></figure></p>
+<p>这一行代码创建一个新的函数，这个函数和通过下面代码定义的函数几乎等价：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> f = <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>)</span>&#123;<span class="keyword">return</span> x*y;&#125;</div></pre></td></tr></table></figure></p>
+<p>关于Function构造函数需要特别注意：</p>
+<ul>
+<li>Function()构造函数运维JavaScript在运行时动态地创建并编译函数</li>
+<li>每次调用Function()构造函数都会解析函数体，并创建新的函数对象。如果是在一个循环或者多次调用的函数中执行这个构造函数，执行效率会受影响。相比之下循环中嵌套函数和函数定义表达式则不会每次执行时都重新编译</li>
+<li>最重要的一点，由Function创建的函数并不是使用词法作用域，相反，函数体代码的编译总是会在顶层函数中执行，如下面代码：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> scope = <span class="string">"global"</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">constructFunction</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> scope = <span class="string">"local"</span>;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"return scope"</span>) <span class="comment">//无法捕获局部作用域	</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//这一行代码返回global，因为通过Function()构造函数所返回的函数使用的不是局部作用域</span></div><div class="line">constructFunction()(); <span class="comment">//=&gt; "global"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我们可以将Function()构造函数认为是在全局作用域中执行的eval()，eval()可以在自己的私有作用域内定义新变量和函数，Function构造函数在实际编程中很少用到</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript-学习笔记/" rel="tag">#JavaScript 学习笔记</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/27/JavaScript详细教程（4） - 数组/" rel="next" title="JavaScript详细教程（4） - 数组">
+                <i class="fa fa-chevron-left"></i> JavaScript详细教程（4） - 数组
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/06/JavaScript详细教程（6） - 函数式编程/" rel="prev" title="JavaScript详细教程（6） - 函数式编程">
+                JavaScript详细教程（6） - 函数式编程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiangCluster</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

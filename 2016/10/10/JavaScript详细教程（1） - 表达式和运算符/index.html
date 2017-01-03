@@ -1,0 +1,531 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript 学习笔记," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="原始表达式直接量直接量是直接在程序中出现的常数值1&quot;hello&quot;
+关键字JavaScript的一些保留字构成了原始表达式1234true falsenullthis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript详细教程（1） - 表达式和运算符">
+<meta property="og:url" content="http://yoursite.com/2016/10/10/JavaScript详细教程（1） - 表达式和运算符/index.html">
+<meta property="og:site_name" content="姜蜀黍的记事本">
+<meta property="og:description" content="原始表达式直接量直接量是直接在程序中出现的常数值1&quot;hello&quot;
+关键字JavaScript的一些保留字构成了原始表达式1234true falsenullthis">
+<meta property="og:updated_time" content="2016-12-31T08:22:04.253Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript详细教程（1） - 表达式和运算符">
+<meta name="twitter:description" content="原始表达式直接量直接量是直接在程序中出现的常数值1&quot;hello&quot;
+关键字JavaScript的一些保留字构成了原始表达式1234true falsenullthis">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/10/10/JavaScript详细教程（1） - 表达式和运算符/"/>
+
+
+  <title> JavaScript详细教程（1） - 表达式和运算符 | 姜蜀黍的记事本 </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">姜蜀黍的记事本</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            时间轴
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript详细教程（1） - 表达式和运算符
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-10T22:14:00+08:00" content="2016-10-10">
+              2016-10-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="原始表达式"><a href="#原始表达式" class="headerlink" title="原始表达式"></a>原始表达式</h1><h2 id="直接量"><a href="#直接量" class="headerlink" title="直接量"></a>直接量</h2><p>直接量是直接在程序中出现的常数值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"hello"</span></div></pre></td></tr></table></figure></p>
+<h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><p>JavaScript的一些保留字构成了原始表达式<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="literal">true</span> </div><div class="line"><span class="literal">false</span></div><div class="line"><span class="literal">null</span></div><div class="line"><span class="keyword">this</span></div></pre></td></tr></table></figure></p>
+<a id="more"></a>    
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">i</div><div class="line">sum </div><div class="line">undeifined <span class="comment">// undefined是全局变量，和null不同，她不是一个关键</span></div></pre></td></tr></table></figure>
+<h1 id="对象和数组的初始化表达式"><a href="#对象和数组的初始化表达式" class="headerlink" title="对象和数组的初始化表达式"></a>对象和数组的初始化表达式</h1><h2 id="数组初始化表达式"><a href="#数组初始化表达式" class="headerlink" title="数组初始化表达式"></a>数组初始化表达式</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>]</div></pre></td></tr></table></figure>
+<p>数组直接量中列表逗号之间的元素可以忽略，这时省略的空位会填充值undefined，例如，下面数组包含5个元素，其中三个元素是undefined<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> b = [<span class="number">1</span>, , , , <span class="number">5</span>]</div></pre></td></tr></table></figure></p>
+<p>数组直接量的元素列表结尾处可以留下单个逗号，这时并不会创建一个新的值为undefined的元素</p>
+<h2 id="对象初始化表达式"><a href="#对象初始化表达式" class="headerlink" title="对象初始化表达式"></a>对象初始化表达式</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">x</span>:<span class="number">2</span>, <span class="attr">y</span>:<span class="number">3</span>&#125;</div></pre></td></tr></table></figure>
+<h2 id="函数定义表达式"><a href="#函数定义表达式" class="headerlink" title="函数定义表达式"></a>函数定义表达式</h2><p>某种意义上讲，函数定义表达式可称为“函数直接量”<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> f = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123; <span class="keyword">return</span> x * x ;&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="对象创建表达式"><a href="#对象创建表达式" class="headerlink" title="对象创建表达式"></a>对象创建表达式</h2><p>对象创建表达式创建一个对象并调用一个函数（这个函数称之为构造函数）初始化新的对象的属性<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line"><span class="keyword">new</span> Point(<span class="number">123</span>);</div></pre></td></tr></table></figure></p>
+<h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><h2 id="运算顺序"><a href="#运算顺序" class="headerlink" title="运算顺序"></a>运算顺序</h2><p>假设存在a=1 那么“b=(a++)+a”的计算顺序为</p>
+<pre><code>1) 计算b
+2) 计算a++(假设值为c)
+3) 计算a
+4) 计算c+a 
+5) 将c+a的结果赋值给b
+</code></pre><p>根据“+”运算符的定义 第2）步中的a++的结果依然是1，即C为1，随后a立即自增1，随后在进行第3)步计算a值时，a的值已经是2，所以b的值为3</p>
+<h2 id="“-”运算符"><a href="#“-”运算符" class="headerlink" title="“+”运算符"></a>“+”运算符</h2><p>“+”号运算符的转换规则优先考虑字符串连接，如果其中一个操作数是字符串或者转换为字符串的对象，另外一个操作数将会转换为字符串，“+”运算符将进行字符串连接操作，如果两个操作数都不是类字符串，那么僵进行算数加法运算</p>
+<h2 id="一元加法"><a href="#一元加法" class="headerlink" title="一元加法"></a>一元加法</h2><p>把操作数转换为数字（或者NaN）,并返回这个转换后的数字，如果操作数本身就是数字，则直接返回这个数字</p>
+<h2 id="一元减法"><a href="#一元减法" class="headerlink" title="一元减法"></a>一元减法</h2><p>把操作数转换为数字，然后改变运算结果的符号</p>
+<h2 id="相等运算符"><a href="#相等运算符" class="headerlink" title="相等运算符"></a>相等运算符</h2><p>检测两个操作数是否相等，可以允许进行类型转换</p>
+<ul>
+<li>如果一个值为null另一个是undefined，则它们相等</li>
+<li>如果一个值是数字，另一个字符串，则先将字符串转换为数字，然后进行比较</li>
+<li>如果其中一个值是true,则将其转换为1再进行比较，如果其中一个值是false，则将其转换为0再进行比较</li>
+<li>如果一个值是对象，另外一个值是数字，则对象通过toString()或者valueOf()转换为原始值再进行比较</li>
+<li>javaScript核心内置类会首先用valueOf()，再用toString()，但日期类除外，日期类只使用toString()</li>
+</ul>
+<h2 id="严格相等运算符"><a href="#严格相等运算符" class="headerlink" title="严格相等运算符"></a>严格相等运算符</h2><p>检测两个操作数是否严格相等，不允许进行任何转换</p>
+<ul>
+<li>如果两个值类型不相同，则他们不相等</li>
+<li>如果两个值都是null或者undefined，则他们不相等</li>
+<li>如果两个值都是布尔值true或者false，则他们相等</li>
+<li>如果其中一个值时NaN或者两个操作数都是NaN，则他们不相等。</li>
+<li>NaN与任何值都不相等，包括它本身。通过X!==X只有在x为NaN的时候，这个表达式才会为true</li>
+<li>如果两个值为数字且数值相等，则它们相等。如果一个值为0，另一个值为-0，则他们同样相等</li>
+</ul>
+<h2 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h2><p>对于数字和字符串操作符来说，加号运算符和比较运算符的行为都有所不同，加号运算符更加偏向于字符串，如果他的其中一个操作数是字符串的话，则进行字符串连接操作，而比较运算符更偏爱数字，只有在两个操作数都是字符串的时候，才会进行字符串比较</p>
+<h2 id="in运算符"><a href="#in运算符" class="headerlink" title="in运算符"></a>in运算符</h2><p>in运算符希望它的左操作数是一个字符串或者可以转换位一个字符串，希望它的右操作数是一个对象，如果右侧的对象拥有一个名为左操作数值得属性名，则返回true，注意继承的属性也会返回true。</p>
+<h2 id="instanceof-运算符"><a href="#instanceof-运算符" class="headerlink" title="instanceof 运算符"></a>instanceof 运算符</h2><p>instanceof运算符希望左操作数是一个对象，右操作数是一个标识对象的类（构造函数），如果左侧的对象时右侧类的实例，则返回true。<br>如果instanceof的左操作数不是对象的话，instanceof返回false。如果右操作数不是函数，则跑出一个类型错误异常</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript-学习笔记/" rel="tag">#JavaScript 学习笔记</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/16/cas（Central Authentication Service）详细教程（3） - cas协议详解/" rel="next" title="cas（Central Authentication Service）详细教程（3） - cas协议详解">
+                <i class="fa fa-chevron-left"></i> cas（Central Authentication Service）详细教程（3） - cas协议详解
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/11/设计模式教程（1） - 对象创建型模式/" rel="prev" title="设计模式教程（1） - 对象创建型模式">
+                设计模式教程（1） - 对象创建型模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiangCluster</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="spring 学习笔记," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="DispatcherServlet作用常见应用场景日志记录：记录请求信息的日志，以便进行信息监控、信息统计、计算PV（Page View）等。
+权限检查：如登录检测，进入处理器检测检测是否登录，如果没有直接返回到登录页面；
+性能监控：有时候系统在某段时间莫名其妙的慢，可以通过拦截器在进入处理器之前记录开始时间，在处理完后记录结束时间，从而得到该请求的处理时间（如果有反向代理，如apache可以自动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring MVC知识点总结（2） - 拦截器">
+<meta property="og:url" content="http://yoursite.com/2015/04/12/spring MVC知识点总结（2） - 拦截器/index.html">
+<meta property="og:site_name" content="姜蜀黍的记事本">
+<meta property="og:description" content="DispatcherServlet作用常见应用场景日志记录：记录请求信息的日志，以便进行信息监控、信息统计、计算PV（Page View）等。
+权限检查：如登录检测，进入处理器检测检测是否登录，如果没有直接返回到登录页面；
+性能监控：有时候系统在某段时间莫名其妙的慢，可以通过拦截器在进入处理器之前记录开始时间，在处理完后记录结束时间，从而得到该请求的处理时间（如果有反向代理，如apache可以自动">
+<meta property="og:updated_time" content="2017-01-03T13:00:12.167Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring MVC知识点总结（2） - 拦截器">
+<meta name="twitter:description" content="DispatcherServlet作用常见应用场景日志记录：记录请求信息的日志，以便进行信息监控、信息统计、计算PV（Page View）等。
+权限检查：如登录检测，进入处理器检测检测是否登录，如果没有直接返回到登录页面；
+性能监控：有时候系统在某段时间莫名其妙的慢，可以通过拦截器在进入处理器之前记录开始时间，在处理完后记录结束时间，从而得到该请求的处理时间（如果有反向代理，如apache可以自动">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/04/12/spring MVC知识点总结（2） - 拦截器/"/>
+
+
+  <title> spring MVC知识点总结（2） - 拦截器 | 姜蜀黍的记事本 </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">姜蜀黍的记事本</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            时间轴
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                spring MVC知识点总结（2） - 拦截器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-04-12T18:17:00+08:00" content="2015-04-12">
+              2015-04-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="DispatcherServlet作用"><a href="#DispatcherServlet作用" class="headerlink" title="DispatcherServlet作用"></a>DispatcherServlet作用</h2><p>常见应用场景<br>日志记录：记录请求信息的日志，以便进行信息监控、信息统计、计算PV（Page View）等。</p>
+<p>权限检查：如登录检测，进入处理器检测检测是否登录，如果没有直接返回到登录页面；</p>
+<p>性能监控：有时候系统在某段时间莫名其妙的慢，可以通过拦截器在进入处理器之前记录开始时间，在处理完后记录结束时间，从而得到该请求的处理时间（如果有反向代理，如apache可以自动记录）；</p>
+<p>通用行为：读取cookie得到用户信息并将用户对象放入请求，从而方便后续流程使用，还有如提取Locale、Theme信息等，只要是多个处理器都需要的即可使用拦截器实现。</p>
+<p>OpenSessionInView：如Hibernate，在进入处理器打开Session，在完成后关闭Session。</p>
+<p>本质也是AOP（面向切面编程），也就是说符合横切关注点的所有功能都可以放入拦截器实现</p>
+<h2 id="拦截器接口"><a href="#拦截器接口" class="headerlink" title="拦截器接口"></a>拦截器接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.springframework.web.servlet;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HandlerInterceptor</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(</span></span></div><div class="line">            HttpServletRequest request, HttpServletResponse response, </div><div class="line">            Object handler) </div><div class="line">            <span class="keyword">throws</span> Exception;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(</span></span></div><div class="line">            HttpServletRequest request, HttpServletResponse response, </div><div class="line">            Object handler, ModelAndView modelAndView) </div><div class="line">            <span class="keyword">throws</span> Exception;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(</span></span></div><div class="line">            HttpServletRequest request, HttpServletResponse response, </div><div class="line">            Object handler, Exception ex)</div><div class="line">            <span class="keyword">throws</span> Exception;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>preHandle预处理回调方法，实现处理器的预处理（如登录检查），第三个参数为响应的处理器（如我们上一章的Controller实现）；</p>
+<p>返回值：true表示继续流程（如调用下一个拦截器或处理器）；</p>
+<p>false表示流程中断（如登录检查失败），不会继续调用其他的拦截器或处理器，此时我们需要通过response来产生响应；</p>
+<p>postHandle后处理回调方法，实现处理器的后处理（但在渲染视图之前），此时我们可以通过modelAndView（模型和视图对象）对模型数据进行处理或对视图进行处理，modelAndView也可能为null。</p>
+<p>afterCompletion整个请求处理完毕回调方法，即在视图渲染完毕时回调，如性能监控中我们可以在此记录结束时间并输出消耗时间，还可以进行一些资源清理，类似于try-catch-finally中的finally，但仅调用处理器执行链中preHandle返回true的拦截器的afterCompletion。</p>
+<h2 id="拦截器适配器"><a href="#拦截器适配器" class="headerlink" title="拦截器适配器"></a>拦截器适配器</h2><p>有时候我们可能只需要实现三个回调方法中的某一个，如果实现HandlerInterceptor接口的话，三个方法必须实现，不管你需不需要，此时spring提供了一个HandlerInterceptorAdapter适配器（一种适配器设计模式的实现），允许我们只实现需要的回调方法</p>
+<p>public abstract class HandlerInterceptorAdapter implements HandlerInterceptor {<br>     //省略代码 此处所以三个回调方法都是空实现，preHandle返回true。<br>}<br>spring MVC拦截器1.JPG</p>
+<p>图1：正常流程</p>
+<p>spring MVC拦截器2.JPG</p>
+<p>图2：中断流程</p>
+<p>注意：中断流程中，比如是HandlerInterceptor2中断的流程（preHandle返回false），此处仅调用它之前拦截器的preHandle返回true的afterCompletion方法。</p>
+<p>应用<br>需求：</p>
+<p>记录每个请求的处理时间，得到一些慢请求（如处理时间超过500毫秒），从而进行性能改进</p>
+<p>实现方案：</p>
+<p>在进入处理器之前记录开始时间，即在拦截器的preHandle记录开始时间；<br>在结束请求处理之后记录结束时间，即在拦截器的afterCompletion记录结束实现，并用结束时间-开始时间得到这次请求的处理时间。<br>问题：</p>
+<p>拦截器是单例，因此不管用户请求多少次都只有一个拦截器实现，即线程不安全</p>
+<p>解决方案是使用ThreadLocal，它是线程绑定的变量，提供线程局部变量（一个线程一个ThreadLocal，A线程的ThreadLocal只能看到A线程的ThreadLocal，不能看到B线程的ThreadLocal）</p>
+<p>代码</p>
+<pre><code class="java"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StopWatchHandlerInterceptor</span> <span class="keyword">extends</span> <span class="title">HandlerInterceptorAdapter</span> </span>{  
+    <span class="keyword">private</span> NamedThreadLocal&lt;Long&gt;  startTimeThreadLocal = <span class="keyword">new</span> NamedThreadLocal&lt;Long&gt;(<span class="string">"StopWatch-StartTime"</span>);  
+    <span class="meta">@Override</span>  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response,   
+Object handler)</span> <span class="keyword">throws</span> Exception </span>{  
+        <span class="keyword">long</span> beginTime = System.currentTimeMillis();<span class="comment">//1、开始时间  </span>
+        startTimeThreadLocal.set(beginTime);<span class="comment">//线程绑定变量（该数据只有当前请求的线程可见）  </span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;<span class="comment">//继续流程  </span>
+    }  
+
+    <span class="meta">@Override</span>  
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response,   
+Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception </span>{  
+        <span class="keyword">long</span> endTime = System.currentTimeMillis();<span class="comment">//2、结束时间  </span>
+        <span class="keyword">long</span> beginTime = startTimeThreadLocal.get();<span class="comment">//得到线程绑定的局部变量（开始时间）  </span>
+        <span class="keyword">long</span> consumeTime = endTime - beginTime;<span class="comment">//3、消耗的时间  </span>
+        <span class="keyword">if</span>(consumeTime &gt; <span class="number">500</span>) {<span class="comment">//此处认为处理时间超过500毫秒的请求为慢请求  </span>
+            <span class="comment">//TODO 记录到日志文件  </span>
+            System.out.println(  
+String.format(<span class="string">"%s consume %d millis"</span>, request.getRequestURI(), consumeTime));  
+        }          
+    }  
+}
+</code></pre>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring-学习笔记/" rel="tag">#spring 学习笔记</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/07/spring MVC知识点总结（1） - DispatcherServlet/" rel="next" title="spring MVC知识点总结（1） - DispatcherServlet">
+                <i class="fa fa-chevron-left"></i> spring MVC知识点总结（1） - DispatcherServlet
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/15/spring MVC知识点总结（3） - 注解式控制器/" rel="prev" title="spring MVC知识点总结（2） - 注解式控制器">
+                spring MVC知识点总结（2） - 注解式控制器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiangCluster</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

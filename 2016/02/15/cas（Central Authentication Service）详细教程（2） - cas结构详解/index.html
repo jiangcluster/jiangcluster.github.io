@@ -1,0 +1,536 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="cas 学习笔记," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="CAS的认证过程就是通过执行以下几个相互关联的组件组成
+
+
+PrincipalNameTransformer将输入到登录表单的用户标识字符串转换成一个临时的主体名称，然后该主体名称将被指定的Authentication Handler进行验证
+AuthenticationManagerAuthenticationManager作为认证子系统的一个入口，其可以接收一个或多个凭据，并调用配置文件中指定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cas（Central Authentication Service）详细教程（2） - cas结构详解">
+<meta property="og:url" content="http://yoursite.com/2016/02/15/cas（Central Authentication Service）详细教程（2） - cas结构详解/index.html">
+<meta property="og:site_name" content="姜蜀黍的记事本">
+<meta property="og:description" content="CAS的认证过程就是通过执行以下几个相互关联的组件组成
+
+
+PrincipalNameTransformer将输入到登录表单的用户标识字符串转换成一个临时的主体名称，然后该主体名称将被指定的Authentication Handler进行验证
+AuthenticationManagerAuthenticationManager作为认证子系统的一个入口，其可以接收一个或多个凭据，并调用配置文件中指定">
+<meta property="og:updated_time" content="2016-12-31T08:19:54.288Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cas（Central Authentication Service）详细教程（2） - cas结构详解">
+<meta name="twitter:description" content="CAS的认证过程就是通过执行以下几个相互关联的组件组成
+
+
+PrincipalNameTransformer将输入到登录表单的用户标识字符串转换成一个临时的主体名称，然后该主体名称将被指定的Authentication Handler进行验证
+AuthenticationManagerAuthenticationManager作为认证子系统的一个入口，其可以接收一个或多个凭据，并调用配置文件中指定">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/02/15/cas（Central Authentication Service）详细教程（2） - cas结构详解/"/>
+
+
+  <title> cas（Central Authentication Service）详细教程（2） - cas结构详解 | 姜蜀黍的记事本 </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">姜蜀黍的记事本</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            时间轴
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                cas（Central Authentication Service）详细教程（2） - cas结构详解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-15T14:16:00+08:00" content="2016-02-15">
+              2016-02-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/cas/" itemprop="url" rel="index">
+                    <span itemprop="name">cas</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>CAS的认证过程就是通过执行以下几个相互关联的组件组成</p>
+<blockquote>
+<ul>
+<li>PrincipalNameTransformer<br>将输入到登录表单的用户标识字符串转换成一个临时的主体名称，然后该主体名称将被指定的Authentication Handler进行验证</li>
+<li>AuthenticationManager<br>AuthenticationManager作为认证子系统的一个入口，其可以接收一个或多个凭据，并调用配置文件中指定的AuthenticationHandler组件对接收到的凭证进行验证。其存储着每次进行验证的结果和确定有效的安全策略</li>
+<li>AuthenticationHandler<br>验证单个凭据并返回认证后的三种可能的结果：成功，失败，未尝试</li>
+<li>PrincipalResolver<br>将认证凭据中的信息转换成一个安全的主体，通常主题中包含一些额外的元数据属性（例如：用户的细节信息如：隶属关系，组关系，邮件，昵称）</li>
+<li>AuthenticationMetaDataPopulator<br>针对认证成功事件设置任意任意元数据的策略组件，该组件通常用于设置特定协议的数据</li>
+</ul>
+</blockquote>
+<p>针对以上组件若未作特殊声明，均在deployerConfigContext.xml中配置</p>
+<a id="more"></a>
+<h2 id="认证管理器"><a href="#认证管理器" class="headerlink" title="认证管理器"></a>认证管理器</h2><p>CAS附带了一个简单却又十分灵活的认证管理器PolicyBasedAuthenticationManager，该认证管理器应该可以满足绝大数的需求。PolicyBasedAuthenticationManager认证管理器按照以下步奏进行执行：对于每个给定的凭据将做以下操作。</p>
+<ul>
+<li>1.遍历所有已配置的认证处理器</li>
+<li>2.如果有一个处理器支持该凭据处理，则尝试对该凭据进行认证</li>
+<li>3.若认证成功则将该凭据解析为一个主体<br>3.1 检测对该凭据进行认证的处理器是否配置了对应的解析器<br>3.2 若有对应解析器则将凭据解析成主体<br>3.3 若没有找到对应的解析器，则使用处理器对该凭据进行解析</li>
+<li>4.检测安全策略是否满足</li>
+<li>5.如果满足安全策略则立即返回</li>
+<li>6.若不满足则继续步骤2</li>
+<li>若所有的凭证按照给定的安全策略进行检测但都不满足则抛出AuthenticationException</li>
+</ul>
+<h2 id="认证处理器"><a href="#认证处理器" class="headerlink" title="认证处理器"></a>认证处理器</h2><p>认证处理器就是具体存储认证信息的地方可以把它理解成为数据库，CAS附带支持与其他常见认证系统对接，以下列出了CAS支持的所有认证技术</p>
+<ul>
+<li>Database</li>
+<li>JAAS</li>
+<li>LDAP</li>
+<li>Legacy</li>
+<li>OAuth 1.0/2.0, OpenID</li>
+<li>RADIUS</li>
+<li>SPNEGO (Windows)</li>
+<li>Trusted (REMOTE_USER)</li>
+<li>X.509 (client SSL certificate)</li>
+<li>Remote Address</li>
+</ul>
+<h2 id="参数提取器"><a href="#参数提取器" class="headerlink" title="参数提取器"></a>参数提取器</h2><p>参数提取器负责检查所有通过附带在http请求后面的参数，这些参数用于描述跳转过来的客户端。每个不同的协议，对应了相应的参数提取器，每个参数提取器将创建对应的“webApplicationService”实体,该实体包含了参数提取器提取的结果，参数提取器定义在src/main/webapp/WEB-INF/spring-configuration/argumentExtractorsConfiguration.xml配置文件中</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cas-学习笔记/" rel="tag">#cas 学习笔记</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/13/cas（Central Authentication Service）详细教程（1） - 概述/" rel="next" title="cas（Central Authentication Service）详细教程（1） - 概述">
+                <i class="fa fa-chevron-left"></i> cas（Central Authentication Service）详细教程（1） - 概述
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/02/16/cas（Central Authentication Service）详细教程（3） - cas协议详解/" rel="prev" title="cas（Central Authentication Service）详细教程（3） - cas协议详解">
+                cas（Central Authentication Service）详细教程（3） - cas协议详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiangCluster</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
