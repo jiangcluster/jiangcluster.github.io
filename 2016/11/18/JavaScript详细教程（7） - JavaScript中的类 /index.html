@@ -1,20 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
   
 
 
-<html class="theme-next muse use-motion">
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
 
 
 
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
 
 
 
@@ -34,38 +45,27 @@
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
 
 
 
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="JavaScript 学习笔记," />
@@ -77,54 +77,57 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
-
-
-
-
 
 
 <meta name="description" content="在JavaScript中，类的实现是基于原型集成机制的。如果两个对象实例都是从同一个原型对象上继承属性，我们说他们是同一个类的实例。JavaScript类的一个重要的特性就是“动态可继承”
-通过工厂函数的方式创建类在JavaScript中，类的所有实例对象都从同一个原型对象上继承属性。因此原型对象是类的核心，通常是通过定义一个函数来创建并初始化新对象，如下代码中inherit()函数将返回一个新创">
+类与原型在JavaScript中，类的所有实例对象都从同一个原型对象上继承属性。因此原型对象是类的核心，通常是通过定义一个函数来创建并初始化新对象，下面代码中inherit()函数将返回一个新创建的对象，新对象">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript详细教程（7） - JavaScript中的类">
 <meta property="og:url" content="http://yoursite.com/2016/11/18/JavaScript详细教程（7） - JavaScript中的类 /index.html">
 <meta property="og:site_name" content="姜蜀黍的记事本">
 <meta property="og:description" content="在JavaScript中，类的实现是基于原型集成机制的。如果两个对象实例都是从同一个原型对象上继承属性，我们说他们是同一个类的实例。JavaScript类的一个重要的特性就是“动态可继承”
-通过工厂函数的方式创建类在JavaScript中，类的所有实例对象都从同一个原型对象上继承属性。因此原型对象是类的核心，通常是通过定义一个函数来创建并初始化新对象，如下代码中inherit()函数将返回一个新创">
-<meta property="og:updated_time" content="2016-12-31T08:22:28.900Z">
+类与原型在JavaScript中，类的所有实例对象都从同一个原型对象上继承属性。因此原型对象是类的核心，通常是通过定义一个函数来创建并初始化新对象，下面代码中inherit()函数将返回一个新创建的对象，新对象">
+<meta property="og:updated_time" content="2017-03-12T12:43:26.413Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript详细教程（7） - JavaScript中的类">
 <meta name="twitter:description" content="在JavaScript中，类的实现是基于原型集成机制的。如果两个对象实例都是从同一个原型对象上继承属性，我们说他们是同一个类的实例。JavaScript类的一个重要的特性就是“动态可继承”
-通过工厂函数的方式创建类在JavaScript中，类的所有实例对象都从同一个原型对象上继承属性。因此原型对象是类的核心，通常是通过定义一个函数来创建并初始化新对象，如下代码中inherit()函数将返回一个新创">
+类与原型在JavaScript中，类的所有实例对象都从同一个原型对象上继承属性。因此原型对象是类的核心，通常是通过定义一个函数来创建并初始化新对象，下面代码中inherit()函数将返回一个新创建的对象，新对象">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"remove"},
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"remove","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
 
 
 
-
   <link rel="canonical" href="http://yoursite.com/2016/11/18/JavaScript详细教程（7） - JavaScript中的类 /"/>
 
 
-  <title> JavaScript详细教程（7） - JavaScript中的类 | 姜蜀黍的记事本 </title>
-</head>
 
-<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
+
+  <title>JavaScript详细教程（7） - JavaScript中的类 | 姜蜀黍的记事本</title>
   
 
 
@@ -134,36 +137,42 @@
 
 
 
+</head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">姜蜀黍的记事本</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">姜蜀黍的记事本</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
   </div>
-  <p class="site-subtitle"></p>
-</div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
 <nav class="site-nav">
@@ -176,23 +185,19 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
+              <i class="menu-item-icon fa  fa-fw fa-home"></i> <br />
+            
             首页
           </a>
         </li>
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
-            时间轴
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
+              <i class="menu-item-icon fa  fa-fw fa-archive"></i> <br />
             
-            标签
+            归档
           </a>
         </li>
       
@@ -203,6 +208,8 @@
 
   
 </nav>
+
+
 
  </div>
     </header>
@@ -217,49 +224,68 @@
     
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/18/JavaScript详细教程（7） - JavaScript中的类 /">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiangCluster">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="姜蜀黍的记事本">
+    </span>
 
     
       <header class="post-header">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                JavaScript详细教程（7） - JavaScript中的类
-              
-            
-          </h1>
+          <h1 class="post-title" itemprop="name headline">JavaScript详细教程（7） - JavaScript中的类</h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-18T21:32:00+08:00" content="2016-11-18">
-              2016-11-18
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-18T21:32:00+08:00">
+                2016-11-18
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/JavaScript/" itemprop="url" rel="index">
                     <span itemprop="name">JavaScript</span>
                   </a>
@@ -267,7 +293,6 @@
 
                 
                 
-
               
             </span>
           
@@ -277,16 +302,42 @@
           
 
           
-
-          
           
 
           
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,824
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -294,50 +345,53 @@
 
       
         <p>在JavaScript中，类的实现是基于原型集成机制的。如果两个对象实例都是从同一个原型对象上继承属性，我们说他们是同一个类的实例。JavaScript类的一个重要的特性就是“动态可继承”</p>
-<h2 id="通过工厂函数的方式创建类"><a href="#通过工厂函数的方式创建类" class="headerlink" title="通过工厂函数的方式创建类"></a>通过工厂函数的方式创建类</h2><p>在JavaScript中，类的所有实例对象都从同一个原型对象上继承属性。因此原型对象是类的核心，通常是通过定义一个函数来创建并初始化新对象，如下代码中inherit()函数将返回一个新创建的对象，新对象继承自inherit函数中指定的原型对象,<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//inherit()函数返回了一个继承自原型对象p的属性的新对象</span></div><div class="line"><span class="comment">//这里使用ECMAScript5中的Object.create()函数（如果存在的话）</span></div><div class="line"><span class="comment">//如果不存在Obejct.create()，则退化使用ECMAScript3支持的方式</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inherit</span>(<span class="params">p</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span>(p == <span class="literal">null</span>)&#123;</div><div class="line">		<span class="keyword">throw</span> <span class="built_in">TypeError</span>();</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//如果支持ECMAScript5的Obejct.create语法</span></div><div class="line">	<span class="comment">//则直接用Obejct.create()生成一个对象并将其原型属性设置为</span></div><div class="line">	<span class="keyword">if</span>(<span class="built_in">Object</span>.create)&#123;				</div><div class="line">		<span class="keyword">return</span> <span class="built_in">Object</span>.create(p);</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//进一步检查传入参数p的类型</span></div><div class="line">	<span class="keyword">var</span> t = <span class="keyword">typeof</span> p;						</div><div class="line">	<span class="keyword">if</span>(t !== <span class="string">"object"</span> &amp;&amp; t != <span class="string">"function"</span>)&#123;</div><div class="line">		<span class="keyword">throw</span> <span class="built_in">TypeError</span>();</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//声明一个空构造函数f</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">	<span class="comment">//将f的原型属性设置为p			</span></div><div class="line">	f.prototype = p;			</div><div class="line">	<span class="keyword">return</span> <span class="keyword">new</span> f();</div><div class="line">&#125;</div><div class="line">                                                                    </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">range</span>(<span class="params">from, to</span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> r = inherit(range.methods);</div><div class="line">	r.from = <span class="keyword">from</span>;</div><div class="line">	r.to = to;</div><div class="line">	<span class="keyword">return</span> r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">range.methods = &#123;</div><div class="line">	<span class="comment">//此函数用于判断参数x是否在范围内，如果在范围内则返回true；否则返回false</span></div><div class="line">	<span class="comment">//这个方法可以比较数字范围，也可以比较字符串和日期范围</span></div><div class="line">	includes:<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.from &lt;= x &amp;&amp; x &lt;= <span class="keyword">this</span>.to;</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//对于范围内的每个整数都调用一次f</span></div><div class="line">	<span class="comment">//这个方法只可用于数字范围确定</span></div><div class="line">	foreach: <span class="function"><span class="keyword">function</span>(<span class="params">f</span>)</span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> x = <span class="built_in">Math</span>.ceil(<span class="keyword">this</span>.from); x &lt;= <span class="keyword">this</span>.to; x++)&#123;</div><div class="line">			f(x)</div><div class="line">		&#125;		</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">toString</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> f = range(<span class="number">1</span>, <span class="number">3</span>);</div><div class="line">r.includes(<span class="number">2</span>) <span class="comment">//=&gt; true 2在这个范围内</span></div><div class="line">r.foreach(<span class="built_in">console</span>.log)	<span class="comment">//输出1, 2, 3</span></div></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<h2 id="使用构造函数的方式创建对象"><a href="#使用构造函数的方式创建对象" class="headerlink" title="使用构造函数的方式创建对象"></a>使用构造函数的方式创建对象</h2><p>使用工厂函数创建对象的方法并不常用，使用构造函数的方式创建对象更加常见，使用构造函数实现继承的最重要的特征就是构造函数的prototype属性被用做新对象的原型，这意味着通过同一个构造函数创建的所有对象都集成自一个相同的对象，因此它们都是同一个类的成员，如西面代码所以，使用构造函数代替工厂函数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Range</span>(<span class="params">from, to</span>)</span>&#123;</div><div class="line">	<span class="comment">//定义两个属性，这两个属性是不能被继承的，每个对象都拥有唯一的属性</span></div><div class="line">	<span class="keyword">this</span>.from = <span class="keyword">from</span>;</div><div class="line">	<span class="keyword">this</span>.to = to</div><div class="line">&#125;</div><div class="line"><span class="comment">//通过Range构造函数创建对象都继承自下面这个对象</span></div><div class="line"><span class="comment">//注意属性的名字必须是“prototype”</span></div><div class="line">Range.prototype = &#123;</div><div class="line">	<span class="attr">includes</span>:<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.from &lt;= x &amp;&amp; x &lt;= <span class="keyword">this</span>.to;</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">foreach</span>: <span class="function"><span class="keyword">function</span>(<span class="params">f</span>)</span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> x = <span class="built_in">Math</span>.ceil(<span class="keyword">this</span>.from); x &lt;= <span class="keyword">this</span>.to; x++)&#123;</div><div class="line">			f(x)</div><div class="line">		&#125;		</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">toString</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="类与原型"><a href="#类与原型" class="headerlink" title="类与原型"></a>类与原型</h2><p>在JavaScript中，类的所有实例对象都从同一个原型对象上继承属性。因此原型对象是类的核心，通常是通过定义一个函数来创建并初始化新对象，下面代码中inherit()函数将返回一个新创建的对象，新对象继承自inherit函数中指定的原型对象<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//inherit()函数返回了一个继承自原型对象p的属性的新对象</span></div><div class="line"><span class="comment">//这里使用ECMAScript5中的Object.create()函数（如果存在的话）</span></div><div class="line"><span class="comment">//如果不存在Obejct.create()，则退化使用ECMAScript3支持的方式</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inherit</span>(<span class="params">p</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span>(p == <span class="literal">null</span>)&#123;</div><div class="line">		<span class="keyword">throw</span> <span class="built_in">TypeError</span>();</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//如果支持ECMAScript5的Obejct.create语法</span></div><div class="line">	<span class="comment">//则直接用Obejct.create()生成一个对象并将其原型属性设置为</span></div><div class="line">	<span class="keyword">if</span>(<span class="built_in">Object</span>.create)&#123;				</div><div class="line">		<span class="keyword">return</span> <span class="built_in">Object</span>.create(p);</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//进一步检查传入参数p的类型</span></div><div class="line">	<span class="keyword">var</span> t = <span class="keyword">typeof</span> p;						</div><div class="line">	<span class="keyword">if</span>(t !== <span class="string">"object"</span> &amp;&amp; t != <span class="string">"function"</span>)&#123;</div><div class="line">		<span class="keyword">throw</span> <span class="built_in">TypeError</span>();</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//声明一个空构造函数f</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">	<span class="comment">//将f的原型属性设置为p			</span></div><div class="line">	f.prototype = p;			</div><div class="line">	<span class="keyword">return</span> <span class="keyword">new</span> f();</div><div class="line">&#125;</div><div class="line">                                                                    </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">range</span>(<span class="params">from, to</span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> r = inherit(range.methods);</div><div class="line">	r.from = <span class="keyword">from</span>;</div><div class="line">	r.to = to;</div><div class="line">	<span class="keyword">return</span> r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">range.methods = &#123;</div><div class="line">	<span class="comment">//此函数用于判断参数x是否在范围内，如果在范围内则返回true；否则返回false</span></div><div class="line">	<span class="comment">//这个方法可以比较数字范围，也可以比较字符串和日期范围</span></div><div class="line">	includes:<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.from &lt;= x &amp;&amp; x &lt;= <span class="keyword">this</span>.to;</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//对于范围内的每个整数都调用一次f</span></div><div class="line">	<span class="comment">//这个方法只可用于数字范围确定</span></div><div class="line">	foreach: <span class="function"><span class="keyword">function</span>(<span class="params">f</span>)</span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> x = <span class="built_in">Math</span>.ceil(<span class="keyword">this</span>.from); x &lt;= <span class="keyword">this</span>.to; x++)&#123;</div><div class="line">			f(x)</div><div class="line">		&#125;		</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">toString</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> f = range(<span class="number">1</span>, <span class="number">3</span>);</div><div class="line">r.includes(<span class="number">2</span>) <span class="comment">//=&gt; true 2在这个范围内</span></div><div class="line">r.foreach(<span class="built_in">console</span>.log)	<span class="comment">//输出1, 2, 3</span></div></pre></td></tr></table></figure></p>
+<p>我们注意到range（）函数定义了一个属性Range.methods，用以快捷地存放定义类的原型对象，把原型对象挂在函数上从语法上来讲没什么问题，但是这不是惯用做法<br><a id="more"></a></p>
+<h2 id="类与构造函数"><a href="#类与构造函数" class="headerlink" title="类与构造函数"></a>类与构造函数</h2><p>使用工厂函数创建对象的方法并不常用，使用构造函数的方式创建对象更加常见，使用构造函数实现继承的最重要的特征就是构造函数的prototype属性被用做新对象的原型，这意味着通过同一个构造函数创建的所有对象都集成自一个相同的对象，因此它们都是同一个类的成员，可以使用构造函数代替工厂函数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Range</span>(<span class="params">from, to</span>)</span>&#123;</div><div class="line">	<span class="comment">//定义两个属性，这两个属性是不能被继承的，每个对象都拥有唯一的属性</span></div><div class="line">	<span class="keyword">this</span>.from = <span class="keyword">from</span>;</div><div class="line">	<span class="keyword">this</span>.to = to</div><div class="line">&#125;</div><div class="line"><span class="comment">//通过Range构造函数创建对象都继承自下面这个对象</span></div><div class="line"><span class="comment">//注意属性的名字必须是“prototype”</span></div><div class="line">Range.prototype = &#123;</div><div class="line">	<span class="attr">includes</span>:<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.from &lt;= x &amp;&amp; x &lt;= <span class="keyword">this</span>.to;</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">foreach</span>: <span class="function"><span class="keyword">function</span>(<span class="params">f</span>)</span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> x = <span class="built_in">Math</span>.ceil(<span class="keyword">this</span>.from); x &lt;= <span class="keyword">this</span>.to; x++)&#123;</div><div class="line">			f(x)</div><div class="line">		&#125;		</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">toString</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>构造函数函数的命名规则（首字母大写）和普通函数有所区分的原因是构造函数调用和普通函数调用不尽相同，构造函数是用来创建新对象的，它必须通过关键字new调用，如果将构造函数用做普通函数往往不能正常工作</p>
-<h2 id="prototype属性"><a href="#prototype属性" class="headerlink" title="prototype属性"></a>prototype属性</h2><p>原型对象是类的唯一标识，当且仅当两个对象继承自同一个原型对象时，它们才是属于同一个类的实例。而初始化对象的状态的构造函数则不能作为类的标识，因为两个构造函数的prototype属性可能指向同一个原型对象。那么两个构造函数创建的实例是属于同一个类。当使用instanceof运算符来检测对象是否属于某个类时会用到构造函数，假设这里有一个对象r，若想判断r是否是Range对象，可以使用如下代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">r <span class="keyword">instanceof</span> Range</div></pre></td></tr></table></figure></p>
+<h2 id="类的标识"><a href="#类的标识" class="headerlink" title="类的标识"></a>类的标识</h2><p>通常我们使用构造函数的名字来做类名，但是严格意义讲构造函数则不能作为类的标识，因为两个构造函数的prototype属性可能指向同一个原型对象，那么两个构造函数创建的实例是属于同一个类。原型对象才应该是类的唯一标识，当且仅当两个对象继承自同一个原型对象时，它们才是属于同一个类的实例。</p>
+<p>当使用instanceof运算符来检测对象是否属于某个类时会用到构造函数，假设这里有一个对象r，若想判断r是否是Range对象，可以使用如下代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">r <span class="keyword">instanceof</span> Range</div></pre></td></tr></table></figure></p>
 <p>实际上instanceof运算符并不会检查r是否是由Range()构造函数初始化而来，而会检查r是否是继承自Range.prototype</p>
 <h2 id="constructor属性"><a href="#constructor属性" class="headerlink" title="constructor属性"></a>constructor属性</h2><p>任何JavaScript函数都可以用做构造函数，并且调用构造函数时需要用到一个prototype属性的，因此，每个JavaScript函数都自动拥有一个prototype属性，这个属性的值是一个对象，这个对象包含唯一一个不可枚举属性constructor。constructor属性的值是一个函数对象：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;	<span class="comment">//这是一个函数对象</span></div><div class="line"><span class="keyword">var</span> p = F.prototype;</div><div class="line"><span class="keyword">var</span> c = p.constructor;</div><div class="line">c === F;				<span class="comment">//true, 对于任意函数F.prototype.constructor == F</span></div></pre></td></tr></table></figure></p>
 <h2 id="重写预定义的prototype对象"><a href="#重写预定义的prototype对象" class="headerlink" title="重写预定义的prototype对象"></a>重写预定义的prototype对象</h2><p>当我们重写对象预定义的prototype属性指向的对象时，要注意该新对象不包含constructor属性，需要我们在对象中手动指定该属性，我们以Range构造函数为例，看如下代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Range.prototype=&#123;</div><div class="line">	<span class="attr">constructor</span>:Range,</div><div class="line">	<span class="attr">includes</span>:<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.from &lt;= x &amp;&amp; x &lt;= <span class="keyword">this</span>.to;</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">foreach</span>: <span class="function"><span class="keyword">function</span>(<span class="params">f</span>)</span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> x = <span class="built_in">Math</span>.ceil(<span class="keyword">this</span>.from); x &lt;= <span class="keyword">this</span>.to; x++)&#123;</div><div class="line">			f(x)</div><div class="line">		&#125;		</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">toString</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>另外一种常见的解决办法是使用预定义的原型对象，预定义的原型对象包含constructor属性，然后依次给原型对象添加方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Range.prototype.includes = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.from &lt;= x &amp;&amp; x &lt;= <span class="keyword">this</span>.to;</div><div class="line">&#125;</div><div class="line">Range.prototype.includes = <span class="function"><span class="keyword">function</span>(<span class="params">f</span>)</span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> x = <span class="built_in">Math</span>.ceil(<span class="keyword">this</span>.from); x &lt;= <span class="keyword">this</span>.to; x++)&#123;</div><div class="line">		f(x)</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="使用instanceof运算符确定对象所属类"><a href="#使用instanceof运算符确定对象所属类" class="headerlink" title="使用instanceof运算符确定对象所属类"></a>使用instanceof运算符确定对象所属类</h2><p>如果o继承自c.prototype,则表达式o instanceof c值为true，这里的继承可以不是直接继承，如果o所继承的对象继承自另一个对象，而后一个对象继承自c.prototype,这个表达式的运算结果也是true。构造函数是类的公共标识，但原型是唯一的标识，尽管instanceof运算符的右操作数是构造函数，但计算过程实际上是检测了对象的继承关系，而不是检测创建对象的构造函数<br>如果想检测对象的原型链上是否存在某个特定的原型对象，如果想不借助构造函数来进行检测，可以使用isPrototype()方法，比如通过以下代码检测r对象是否是上面介绍的Range类的成员<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">range.method.isPrototypeOf(r); <span class="comment">//range.method是原型对象</span></div></pre></td></tr></table></figure></p>
+<h2 id="利用JavaScript实现Java式的类继承"><a href="#利用JavaScript实现Java式的类继承" class="headerlink" title="利用JavaScript实现Java式的类继承"></a>利用JavaScript实现Java式的类继承</h2><p>在JavaScript中定义类的不走可以缩减为一个分三步的算法。第一步，先定义一个构造函数，并设置初始新对象的实例属性。第二部，给构造函数的prototype对象定义实例方法，第三部给构造函数定义类字段和类属性，我们可以将三步封装进一个简单的defineClass()函数中<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineClass</span>(<span class="params">constructor, methods, statics</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span>(methods)&#123;</div><div class="line">		extend(<span class="keyword">constructor</span>.prototype, methods);</div><div class="line">	&#125;</div><div class="line">	if(statics)&#123;</div><div class="line">		extend(<span class="keyword">constructor</span>, statics);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function extend(o, p)&#123;</div><div class="line">	<span class="keyword">for</span>(prop <span class="keyword">in</span> p)&#123;</div><div class="line">		o[prop] = p[prop]</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> o;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="利用instanceof确定对象所属类"><a href="#利用instanceof确定对象所属类" class="headerlink" title="利用instanceof确定对象所属类"></a>利用instanceof确定对象所属类</h2><p>如果o继承自c.prototype,则表达式o instanceof c值为true，这里的继承可以不是直接继承，如果o所继承的对象继承自另一个对象，而后一个对象继承自c.prototype,这个表达式的运算结果也是true。构造函数是类的公共标识，但原型是唯一的标识，尽管instanceof运算符的右操作数是构造函数，但计算过程实际上是检测了对象的继承关系，而不是检测创建对象的构造函数<br>如果想检测对象的原型链上是否存在某个特定的原型对象，如果想不借助构造函数来进行检测，可以使用isPrototype()方法，比如通过以下代码检测r对象是否是上面介绍的Range类的成员<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">range.method.isPrototypeOf(r); <span class="comment">//range.method是原型对象</span></div></pre></td></tr></table></figure></p>
 <p>instanceof运算符和isPrototypeOf()都有一个共同的缺点就是我们无法通过对象来获得类名，另外在应用到浏览器端多框架子页面的时候，如果在不同框架页面中创建两个数组继承自两个相同但是相互独立的原型对象时，其中一个框架页面中的数组不是另一个框架页面的Array()构造函数的实例。这时使用instanceof元素的结果是false</p>
-<h2 id="利用constructor属性确定对象所属类"><a href="#利用constructor属性确定对象所属类" class="headerlink" title="利用constructor属性确定对象所属类"></a>利用constructor属性确定对象所属类</h2><p>另一种识别对象是否属于某个类的方法是使用constructor属性，如下面代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">typeAndValue</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">	swith(x.constructor)&#123;</div><div class="line">		<span class="keyword">case</span> <span class="built_in">Number</span>: <span class="keyword">return</span> <span class="string">"Number:"</span>+x;</div><div class="line">		<span class="comment">//....</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="利用constructor确定对象所属类"><a href="#利用constructor确定对象所属类" class="headerlink" title="利用constructor确定对象所属类"></a>利用constructor确定对象所属类</h2><p>另一种识别对象是否属于某个类的方法是使用constructor属性，如下面代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">typeAndValue</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">	swith(x.constructor)&#123;</div><div class="line">		<span class="keyword">case</span> <span class="built_in">Number</span>: <span class="keyword">return</span> <span class="string">"Number:"</span>+x;</div><div class="line">		<span class="comment">//....</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>使用constructor有两个明显的不足， 一个不足时和instanceof一样，在浏览器端多框架页面中，每个页面都各自拥有独立的构造函数集合，一个框架页面中的Array构造函数和另一个框架页面Array构造函数不是同一个构造函数，另一个不足是不是所有的对象都有constructor属性</p>
-<h2 id="利用构造函数名称确定对象所属类型"><a href="#利用构造函数名称确定对象所属类型" class="headerlink" title="利用构造函数名称确定对象所属类型"></a>利用构造函数名称确定对象所属类型</h2><p>上面两种检测办法的主要问题都是在多上下文的情况下构造函数存在多个副本，导致检测结果不准确。为此我们可以想到另一种解决方法：使用构造函数的名字嗯嗯不是构造函数本身作为类标识符</p>
-<h2 id="鸭式辨型"><a href="#鸭式辨型" class="headerlink" title="鸭式辨型"></a>鸭式辨型</h2><p>上述三种检测对象的类都会有些问题。其中一种思路提出：判断对象所属类不要关注“对象类时什么”，而是关注“对象能做什么”。这种思考问题的方式在Python和Ruby中非常普遍，称为“鸭式辨型”，这个思路的具体表述如下：</p>
+<h2 id="利用构造函数名称确定对象所属类"><a href="#利用构造函数名称确定对象所属类" class="headerlink" title="利用构造函数名称确定对象所属类"></a>利用构造函数名称确定对象所属类</h2><p>上面两种检测办法的主要问题都是在多上下文的情况下构造函数存在多个副本，导致检测结果不准确。为此我们可以想到另一种解决方法：使用构造函数的名字而不是构造函数本身作为类标识符</p>
+<h2 id="鸭式辨型"><a href="#鸭式辨型" class="headerlink" title="鸭式辨型"></a>鸭式辨型</h2><p>上述三种检测对象的类都会有些问题。其中一种思路提出：判断对象所属类不要关注“对象类是什么”，而是关注“对象能做什么”。这种思考问题的方式在Python和Ruby中非常普遍，称为“鸭式辨型”，这个思路的具体表述如下：</p>
 <blockquote>
 <p>像鸭子一样走路、游泳并且嘎嘎叫的鸟就是鸭子</p>
 </blockquote>
 <p>运用到JavaScript的实际场景的例子：我们并不知道一个对象是否真的是Array的实例，当然可以通过判断是否包含非负的length属性来得知是否是Array的实例，这里我们把“包含一个值是非负整数的length属性”是数组的一个特征-“会走路”，任何具有“会走路”这个特征的对象都可以当做数组来对待</p>
+<h2 id="方法借用"><a href="#方法借用" class="headerlink" title="方法借用"></a>方法借用</h2><p>JavaScript的函数可以通过对象来调用它，一个函数可以赋值给两个属性，然后作为两个方法来调用它。多各类中的方法可以共用一个单独的函数，比如，Array类通常定义了一些内置方法，如果定义一个类，它的实例是类数组对象，则可以从Array.prototype中将函数复制至所定义的类的原型对象中，如果以经典的面向对象语言视角来看JavaScript的话，把一个类的方法用到其他的类中的方法也称作“多重继承”。但由于JavaScript并不是经典的面向对象语言，所以更倾向于将这种方法重用更正式地称为“方法借用”</p>
+<h2 id="私有状态"><a href="#私有状态" class="headerlink" title="私有状态"></a>私有状态</h2><p>在经典面向对象编程中，经常需要将对象的某个状态封装或隐藏在对对象内，只有通过对象的方法才能访问这些状态。在JavaScript中我们可以通过将变量闭包在一个构造函数内来模拟实现私有实例字段，调用构造函数会创建一个实例。为了做到这一点，需要再构造函数内定义一个函数（这个函数可以访问构造函数内部的参数和变量），并将这个函数赋值给新创建对象的属性。如下面代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Range</span>(<span class="params">from, to</span>)</span>&#123;</div><div class="line">	<span class="comment">//不要讲端点保存为对象的属性，相反定义存取器函数来返回端点的值，这些值都保存在闭包中</span></div><div class="line">	<span class="keyword">this</span>.from = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="keyword">return</span> <span class="keyword">from</span>;&#125;;</div><div class="line">	<span class="keyword">this</span>.to = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> to;&#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//原型上的方法无法直接操作端点，必须调用存取器函数</span></div><div class="line">Range.prototype = &#123;</div><div class="line">	<span class="keyword">constructor</span> = Range;</div><div class="line">	includes: function(x)&#123;<span class="keyword">return</span> <span class="keyword">this</span>.from() &lt;= x &amp;&amp; x&lt;= <span class="keyword">this</span>.to()&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
 
-    <div>
-      
-        
-
-      
-    </div>
+    
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/JavaScript-学习笔记/" rel="tag">#JavaScript 学习笔记</a>
+            <a href="/tags/JavaScript-学习笔记/" rel="tag"># JavaScript 学习笔记</a>
           
         </div>
+      
+
+      
+      
       
 
       
@@ -350,10 +404,12 @@
             
           </div>
 
+          <span class="post-nav-divider"></span>
+
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/11/22/JavaScript详细教程（8） - JavaScript中的面向对象技术/" rel="prev" title="JavaScript详细教程（7） - JavaScript中的面向对象">
-                JavaScript详细教程（7） - JavaScript中的面向对象 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/11/22/JavaScript详细教程（8） - JavaScript中的面向对象/" rel="prev" title="JavaScript详细教程（8） - JavaScript中的面向对象">
+                JavaScript详细教程（8） - JavaScript中的面向对象 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -363,6 +419,10 @@
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -378,9 +438,9 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
+
+  
+
 
 
         </div>
@@ -390,36 +450,50 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">jiangCluster</span>
+
+  
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
-  </a>
-</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
 
         
+
+
+
+
+
+
 
         
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
   </div>
 
   
@@ -442,56 +516,52 @@
 
 
 
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
 
 
 
   
   
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
-
-
-
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
 
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
 
 
   
 
 
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
 
-  
-
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
 
 
 
@@ -499,6 +569,56 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
 
   
 
@@ -506,6 +626,14 @@
 
   
 
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>
