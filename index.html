@@ -228,7 +228,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/20/spring核心源码解析（3） - 获取bean（上）/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/02/新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jiangCluster">
@@ -247,7 +247,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/20/spring核心源码解析（3） - 获取bean（上）/" itemprop="url">spring核心源码解析（3） - 获取Bean(上)</a></h1>
+                <a class="post-title-link" href="/2018/07/02/新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介/" itemprop="url">新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介</a></h1>
         
 
         <div class="post-meta">
@@ -259,8 +259,178 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-20T11:15:00+08:00">
-                2017-12-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-02T20:36:00+08:00">
+                2018-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Service-mesh/" itemprop="url" rel="index">
+                    <span itemprop="name">Service mesh</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,178
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="什么是Service-mesh"><a href="#什么是Service-mesh" class="headerlink" title="什么是Service mesh"></a>什么是Service mesh</h1><p>&emsp;&emsp;Service mesh即“服务网格”，是一种用于处理服务到服务通信的专用基础设施层，它提供一个在不同服务实例间可靠的，弹性可伸缩的高性能通信服务。 </p>
+<p>&emsp;&emsp;Service mesh为啥突然在这个时候这么火？这肯定是有原因的，就像AI实际上在上个六十年代就已经被提出但直到近几年才火起来是和云计算和大数据的普及密不可分一样，Service mesh的流行和微服务以及容器技术的逐渐成为技术架构的主流方式有关。随着微服务以及容器技术的逐渐普及，一个应用内部可能包含了上百个服务，而每个服务又有多个实例同时在运行，并且由于这些服务实例一般都是被K8s这样调度系统进行管理，所以实例一直处于不断变化的不稳定状态中。这样就导致服务与服务间的通信变得极为复杂。如何保证微服务场景下仍然可以进行高效可靠端到端的网络通信？提供一个专用的服务实例通信基础设施已经成为cloud native应用开发中的一个重要刚需。于是，上帝说要有光，那Service Mesh就应运而生。Service mesh为服务实例间网络通信提供监控、安全、认证和授权，以及降级限流等微服务的治理高级功能。</p>
+<p>&emsp;&emsp;在Service Mesh的具体实现中，其表现形式一般是提供一个Agent实例，service mesg称之为sdiecar（跨斗），sidecar会和服务实例部署在一起,sidecar将内部服务通信、安全认证相关、监控、容错等和业务本身并无关系的业务逻辑抽象出来，这样开发人员可以集中精力进行业务代码开发，而微服务治理等工作则交给运维人员进行后续维护和处理。具体架构参照下图：</p>
+<p><img src="/images/servicemesh/1.png" alt="http://philcalcado.com/2017/08/03/pattern_service_mesh.html" title="http://philcalcado.com/2017/08/03/pattern_service_mesh.html"><br>图片来自：<a href="http://philcalcado.com/2017/08/03/pattern_service_mesh.html">http://philcalcado.com/2017/08/03/pattern_service_mesh.html</a></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/02/新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介/#espandi" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/20/spring核心源码解析（3） - 获取bean（上）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiangCluster">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="姜蜀黍的记事本">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/20/spring核心源码解析（3） - 获取bean（上）/" itemprop="url">spring核心源码解析（3） - 获取Bean(上)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-20T11:15:00+08:00">
+                2018-03-20
               </time>
             
 
@@ -345,7 +515,7 @@
 <p>AbstractApplicationContext.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">getBean</span><span class="params">(String name)</span> <span class="keyword">throws</span> BeansException </span>&#123;</div><div class="line">	assertBeanFactoryActive();</div><div class="line">	<span class="keyword">return</span> getBeanFactory().getBean(name);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/20/spring核心源码解析（3） - 获取bean（上）/#more" rel="contents">
+            <a class="btn" href="/2018/03/20/spring核心源码解析（3） - 获取bean（上）/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -396,7 +566,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/19/spring核心源码解析（2） - 解析默认标签/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/15/spring核心源码解析（2） - 解析默认标签/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jiangCluster">
@@ -415,7 +585,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/19/spring核心源码解析（2） - 解析默认标签/" itemprop="url">spring核心源码解析（2） - 解析bean默认标签</a></h1>
+                <a class="post-title-link" href="/2018/03/15/spring核心源码解析（2） - 解析默认标签/" itemprop="url">spring核心源码解析（2） - 解析bean默认标签</a></h1>
         
 
         <div class="post-meta">
@@ -427,8 +597,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-19T16:25:00+08:00">
-                2017-12-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-15T16:25:00+08:00">
+                2018-03-15
               </time>
             
 
@@ -512,7 +682,7 @@
           <h1 id="1-解析默认bean标签"><a href="#1-解析默认bean标签" class="headerlink" title="1 解析默认bean标签"></a>1 解析默认bean标签</h1><p>在上一篇博客中，最后调用了parseBeanDefinitions()方法，bean标签的解析便是在该方法内进行的，参照以下代码<br>DefaultBeanDefinitionDocumentReader.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">parseBeanDefinitions</span><span class="params">(Element root, BeanDefinitionParserDelegate delegate)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (delegate.isDefaultNamespace(root)) &#123;</div><div class="line">		NodeList nl = root.getChildNodes();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nl.getLength(); i++) &#123;</div><div class="line">			Node node = nl.item(i);</div><div class="line">			<span class="keyword">if</span> (node <span class="keyword">instanceof</span> Element) &#123;</div><div class="line">				Element ele = (Element) node;</div><div class="line">				<span class="keyword">if</span> (delegate.isDefaultNamespace(ele)) &#123;</div><div class="line">					parseDefaultElement(ele, delegate);</div><div class="line">				&#125;</div><div class="line">				<span class="keyword">else</span> &#123;</div><div class="line">					delegate.parseCustomElement(ele);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> &#123;</div><div class="line">		delegate.parseCustomElement(root);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/19/spring核心源码解析（2） - 解析默认标签/#more" rel="contents">
+            <a class="btn" href="/2018/03/15/spring核心源码解析（2） - 解析默认标签/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -681,7 +851,7 @@
 <p>当通过Resource相关类完成了对配置文件进行封装后配置文件的读取工作就全权交给XMLBeanDefinitionsReader来进行下一步的处理</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/18/spring核心源码解析（1） - 加载配置文件/#more" rel="contents">
+            <a class="btn" href="/2017/12/18/spring核心源码解析（1） - 加载配置文件/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1197,7 +1367,7 @@
 <li><p>流量削峰：系统瓶颈一般在数据库上，比如扣减库存、下单等。此时可以考虑使用队列将变更请求暂时放入队列，通过缓存+队列的暂存的方式将数据库流量削峰。同样对于秒杀系统，下单服务会是该系统的瓶颈，此时可以使用队列进行排队和限流，从而保护下单服务</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/05/31/《亿级流量网站架构核心技术》学习笔记 - 队列术/#more" rel="contents">
+            <a class="btn" href="/2017/05/31/《亿级流量网站架构核心技术》学习笔记 - 队列术/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1248,7 +1418,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/21/Java虚拟机知识点（1）-内存区分/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/21/Java虚拟机基础知识点（1）-内存区分/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jiangCluster">
@@ -1267,7 +1437,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/03/21/Java虚拟机知识点（1）-内存区分/" itemprop="url">Java虚拟机知识点（1）-内存分区</a></h1>
+                <a class="post-title-link" href="/2017/03/21/Java虚拟机基础知识点（1）-内存区分/" itemprop="url">Java虚拟机知识点（1）-内存分区</a></h1>
         
 
         <div class="post-meta">
@@ -1370,7 +1540,7 @@
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/03/21/Java虚拟机知识点（1）-内存区分/#more" rel="contents">
+            <a class="btn" href="/2017/03/21/Java虚拟机基础知识点（1）-内存区分/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1421,7 +1591,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/JavaWeb编解码详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/Java编解码详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="jiangCluster">
@@ -1440,7 +1610,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/03/17/JavaWeb编解码详解/" itemprop="url">JavaWeb编码详解</a></h1>
+                <a class="post-title-link" href="/2017/03/17/Java编解码详解/" itemprop="url">JavaWeb编码详解</a></h1>
         
 
         <div class="post-meta">
@@ -1537,7 +1707,7 @@
           <h2 id="GB2312、GBK、UTF-16、UTF-8编码比较"><a href="#GB2312、GBK、UTF-16、UTF-8编码比较" class="headerlink" title="GB2312、GBK、UTF-16、UTF-8编码比较"></a>GB2312、GBK、UTF-16、UTF-8编码比较</h2><p>&emsp;&emsp;对于中文字符，使用GB2312、GBK、UTF-16、UTF-8均能对其进行处理。但是GBK的范围更大，他能处理所有汉字字符，所以讲GB2312与GBK进行对比，应该选择GBK。UTF-16与UTF-8都是处理Unicode编码，他们的编码规则不太相同。相对来说，UTF-16的编码效率较高，从字符到字节的相互转换更加简单，进行字符串操作也更好，它适合在本地和内存之间使用，但是它不适合在网络之间传输，因为网络传输容易损坏字节流，一旦字节流损坏就很难恢复，所以相比较而言URF-8更适合网络传输，UTF-8对ASCII字符采用单字节存储，另外单个字符损坏也不会影响后面的其他字符，在编码效率上结余GBL和UTF-16之间，所以UTF-8在编码效率和编码安全性上做了平衡，是理想的中文编码方式。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/03/17/JavaWeb编解码详解/#more" rel="contents">
+            <a class="btn" href="/2017/03/17/Java编解码详解/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1704,176 +1874,7 @@
           <h2 id="利用JavaScript实现一个集合类"><a href="#利用JavaScript实现一个集合类" class="headerlink" title="利用JavaScript实现一个集合类"></a>利用JavaScript实现一个集合类</h2><p>集合（set）是一种数据结构，用以表示非重复值的无序集合，集合的基础方法包括添加值、检测值是否在集合中,以下代码将实现一个通用的set集合类：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">set</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">this</span>.values = &#123;&#125;;				<span class="comment">//集合数据保存在对象的属性里</span></div><div class="line">	<span class="keyword">this</span>.n = <span class="number">0</span>;						<span class="comment">//集合中值得个数</span></div><div class="line">	<span class="keyword">this</span>.add.apply(<span class="keyword">this</span>,<span class="built_in">arguments</span>);	<span class="comment">//将所有参数都添加进这个集合里</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//在函数原型对象中定义将所有参数添加进集合的函数</span></div><div class="line">set.prototype.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; <span class="built_in">arguments</span>.length; i++)&#123;</div><div class="line">		<span class="keyword">var</span> val = <span class="built_in">arguments</span>[i];</div><div class="line">		<span class="keyword">var</span> str = <span class="built_in">Set</span>.v2s(val);</div><div class="line">		<span class="keyword">if</span>(!<span class="keyword">this</span>.values.hasOwnProperty(str))&#123;</div><div class="line">		<span class="keyword">this</span>.values[str] = val;</div><div class="line">			<span class="keyword">this</span>.n++;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//如何集合包含这个值，则返回true，否则，返回false</span></div><div class="line"><span class="built_in">Set</span>.prototype.contains = <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.values.hasOwnProperty(<span class="built_in">Set</span>.v2s(value));</div><div class="line">&#125;;</div><div class="line"><span class="comment">//返回集合的大小</span></div><div class="line"><span class="built_in">Set</span>.prototype.size=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.n;</div><div class="line">&#125;</div><div class="line"><span class="comment">//遍历集合中的所有元素，在指定的上下文调用f</span></div><div class="line"><span class="built_in">Set</span>.prototype.foreach = <span class="function"><span class="keyword">function</span>(<span class="params">f, context</span>)</span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> s <span class="keyword">in</span> <span class="keyword">this</span>.values)&#123;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.values.hasOwnProperty(s))&#123;</div><div class="line">			f.call(context, <span class="keyword">this</span>.values[s])</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//这是一个内部函数，用以将任意JavaScript值和唯一的字符串对应起来</span></div><div class="line">set._v2s = <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</div><div class="line">	<span class="keyword">switch</span>(val)&#123;</div><div class="line">		<span class="keyword">case</span> <span class="literal">undefined</span>:</div><div class="line">			<span class="keyword">return</span> <span class="string">'u'</span>;</div><div class="line">		<span class="keyword">case</span> <span class="literal">null</span>:</div><div class="line">			<span class="keyword">return</span> <span class="string">'n'</span>;</div><div class="line">		<span class="keyword">case</span> <span class="literal">true</span>:</div><div class="line">			<span class="keyword">return</span> <span class="string">'t'</span>;</div><div class="line">		<span class="keyword">case</span> <span class="literal">false</span>:</div><div class="line">			<span class="keyword">return</span> <span class="string">'f'</span>;</div><div class="line">		<span class="keyword">default</span>: <span class="keyword">switch</span>(<span class="keyword">typeof</span> val)&#123;</div><div class="line">			<span class="keyword">case</span> <span class="string">'number'</span>: <span class="keyword">return</span> <span class="string">'#'</span> + val;</div><div class="line">			<span class="keyword">case</span> <span class="string">'string'</span>: <span class="keyword">return</span> <span class="string">'"'</span> + val;</div><div class="line">				<span class="keyword">default</span>:<span class="keyword">return</span> <span class="string">'@'</span> + obejctId(val);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//对任意对象来说，都会返回一个字符串</span></div><div class="line">	<span class="comment">//针对不同的对象，这个函数会返回不同的字符串</span></div><div class="line">	<span class="comment">//对于同一个对象多次调用，总是返回相同的字符串</span></div><div class="line">	<span class="comment">//为了做到这一点，它给o创建了一个属性，在ES5中，这个属性是不可枚举且是只读的</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">objectId</span>(<span class="params">o</span>)</span>&#123;</div><div class="line">		<span class="keyword">var</span> prop = <span class="string">"|**obejctId**|"</span>;</div><div class="line">		<span class="keyword">if</span>(!o.hasOwnProperty(prop))</div><div class="line">			o[prop] = <span class="built_in">Set</span>._v2s.next++;</div><div class="line">		<span class="keyword">return</span> o[prop];</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">Set</span>._v2s.next = <span class="number">100</span>;</div></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/11/22/JavaScript详细教程（8） - JavaScript中的面向对象/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/18/JavaScript详细教程（7） - JavaScript中的类 /">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="jiangCluster">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="姜蜀黍的记事本">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/11/18/JavaScript详细教程（7） - JavaScript中的类 /" itemprop="url">JavaScript详细教程（7） - JavaScript中的类</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-18T21:32:00+08:00">
-                2016-11-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,824
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在JavaScript中，类的实现是基于原型集成机制的。如果两个对象实例都是从同一个原型对象上继承属性，我们说他们是同一个类的实例。JavaScript类的一个重要的特性就是“动态可继承”</p>
-<h2 id="类与原型"><a href="#类与原型" class="headerlink" title="类与原型"></a>类与原型</h2><p>在JavaScript中，类的所有实例对象都从同一个原型对象上继承属性。因此原型对象是类的核心，通常是通过定义一个函数来创建并初始化新对象，下面代码中inherit()函数将返回一个新创建的对象，新对象继承自inherit函数中指定的原型对象<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//inherit()函数返回了一个继承自原型对象p的属性的新对象</span></div><div class="line"><span class="comment">//这里使用ECMAScript5中的Object.create()函数（如果存在的话）</span></div><div class="line"><span class="comment">//如果不存在Obejct.create()，则退化使用ECMAScript3支持的方式</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inherit</span>(<span class="params">p</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span>(p == <span class="literal">null</span>)&#123;</div><div class="line">		<span class="keyword">throw</span> <span class="built_in">TypeError</span>();</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//如果支持ECMAScript5的Obejct.create语法</span></div><div class="line">	<span class="comment">//则直接用Obejct.create()生成一个对象并将其原型属性设置为</span></div><div class="line">	<span class="keyword">if</span>(<span class="built_in">Object</span>.create)&#123;				</div><div class="line">		<span class="keyword">return</span> <span class="built_in">Object</span>.create(p);</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//进一步检查传入参数p的类型</span></div><div class="line">	<span class="keyword">var</span> t = <span class="keyword">typeof</span> p;						</div><div class="line">	<span class="keyword">if</span>(t !== <span class="string">"object"</span> &amp;&amp; t != <span class="string">"function"</span>)&#123;</div><div class="line">		<span class="keyword">throw</span> <span class="built_in">TypeError</span>();</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//声明一个空构造函数f</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">	<span class="comment">//将f的原型属性设置为p			</span></div><div class="line">	f.prototype = p;			</div><div class="line">	<span class="keyword">return</span> <span class="keyword">new</span> f();</div><div class="line">&#125;</div><div class="line">                                                                    </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">range</span>(<span class="params">from, to</span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> r = inherit(range.methods);</div><div class="line">	r.from = <span class="keyword">from</span>;</div><div class="line">	r.to = to;</div><div class="line">	<span class="keyword">return</span> r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">range.methods = &#123;</div><div class="line">	<span class="comment">//此函数用于判断参数x是否在范围内，如果在范围内则返回true；否则返回false</span></div><div class="line">	<span class="comment">//这个方法可以比较数字范围，也可以比较字符串和日期范围</span></div><div class="line">	includes:<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.from &lt;= x &amp;&amp; x &lt;= <span class="keyword">this</span>.to;</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">//对于范围内的每个整数都调用一次f</span></div><div class="line">	<span class="comment">//这个方法只可用于数字范围确定</span></div><div class="line">	foreach: <span class="function"><span class="keyword">function</span>(<span class="params">f</span>)</span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> x = <span class="built_in">Math</span>.ceil(<span class="keyword">this</span>.from); x &lt;= <span class="keyword">this</span>.to; x++)&#123;</div><div class="line">			f(x)</div><div class="line">		&#125;		</div><div class="line">	&#125;,</div><div class="line">	<span class="attr">toString</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> f = range(<span class="number">1</span>, <span class="number">3</span>);</div><div class="line">r.includes(<span class="number">2</span>) <span class="comment">//=&gt; true 2在这个范围内</span></div><div class="line">r.foreach(<span class="built_in">console</span>.log)	<span class="comment">//输出1, 2, 3</span></div></pre></td></tr></table></figure></p>
-<p>我们注意到range（）函数定义了一个属性Range.methods，用以快捷地存放定义类的原型对象，把原型对象挂在函数上从语法上来讲没什么问题，但是这不是惯用做法<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/11/18/JavaScript详细教程（7） - JavaScript中的类 /#more" rel="contents">
+            <a class="btn" href="/2016/11/22/JavaScript详细教程（8） - JavaScript中的面向对象/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>

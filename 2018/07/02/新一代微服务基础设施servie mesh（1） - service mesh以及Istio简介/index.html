@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是Service mesh&amp;emsp;&amp;emsp;Service mesh即“服务网格”，是一种用于处理服务到服务通信的专用基础设施层，它提供一个在不同服务实例间可靠的，弹性可伸缩的高性能通信服务。 
+&amp;emsp;&amp;emsp;Service mesh为啥突然在这个时候这么火？这肯定是有原因的，就像AI实际上在上个六十年代就已经被提出但直到近几年才火起来是和云计算和大数据的普及密不可分一样，Se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介">
+<meta property="og:url" content="http://yoursite.com/2018/07/02/新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介/index.html">
+<meta property="og:site_name" content="姜蜀黍的记事本">
+<meta property="og:description" content="什么是Service mesh&amp;emsp;&amp;emsp;Service mesh即“服务网格”，是一种用于处理服务到服务通信的专用基础设施层，它提供一个在不同服务实例间可靠的，弹性可伸缩的高性能通信服务。 
+&amp;emsp;&amp;emsp;Service mesh为啥突然在这个时候这么火？这肯定是有原因的，就像AI实际上在上个六十年代就已经被提出但直到近几年才火起来是和云计算和大数据的普及密不可分一样，Se">
+<meta property="og:image" content="http://yoursite.com/images/servicemesh/1.png">
+<meta property="og:image" content="http://yoursite.com/images/servicemesh/2.png">
+<meta property="og:image" content="http://yoursite.com/images/servicemesh/3.png">
+<meta property="og:updated_time" content="2018-07-02T12:48:02.817Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介">
+<meta name="twitter:description" content="什么是Service mesh&amp;emsp;&amp;emsp;Service mesh即“服务网格”，是一种用于处理服务到服务通信的专用基础设施层，它提供一个在不同服务实例间可靠的，弹性可伸缩的高性能通信服务。 
+&amp;emsp;&amp;emsp;Service mesh为啥突然在这个时候这么火？这肯定是有原因的，就像AI实际上在上个六十年代就已经被提出但直到近几年才火起来是和云计算和大数据的普及密不可分一样，Se">
+<meta name="twitter:image" content="http://yoursite.com/images/servicemesh/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"remove","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/02/新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介/"/>
+
+
+
+
+
+  <title>新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介 | 姜蜀黍的记事本</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">姜蜀黍的记事本</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa  fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa  fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/02/新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiangCluster">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="姜蜀黍的记事本">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">新一代微服务基础设施servie mesh（1） - service mesh以及Istio简介</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-02T20:36:00+08:00">
+                2018-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Service-mesh/" itemprop="url" rel="index">
+                    <span itemprop="name">Service mesh</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,178
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是Service-mesh"><a href="#什么是Service-mesh" class="headerlink" title="什么是Service mesh"></a>什么是Service mesh</h1><p>&emsp;&emsp;Service mesh即“服务网格”，是一种用于处理服务到服务通信的专用基础设施层，它提供一个在不同服务实例间可靠的，弹性可伸缩的高性能通信服务。 </p>
+<p>&emsp;&emsp;Service mesh为啥突然在这个时候这么火？这肯定是有原因的，就像AI实际上在上个六十年代就已经被提出但直到近几年才火起来是和云计算和大数据的普及密不可分一样，Service mesh的流行和微服务以及容器技术的逐渐成为技术架构的主流方式有关。随着微服务以及容器技术的逐渐普及，一个应用内部可能包含了上百个服务，而每个服务又有多个实例同时在运行，并且由于这些服务实例一般都是被K8s这样调度系统进行管理，所以实例一直处于不断变化的不稳定状态中。这样就导致服务与服务间的通信变得极为复杂。如何保证微服务场景下仍然可以进行高效可靠端到端的网络通信？提供一个专用的服务实例通信基础设施已经成为cloud native应用开发中的一个重要刚需。于是，上帝说要有光，那Service Mesh就应运而生。Service mesh为服务实例间网络通信提供监控、安全、认证和授权，以及降级限流等微服务的治理高级功能。</p>
+<p>&emsp;&emsp;在Service Mesh的具体实现中，其表现形式一般是提供一个Agent实例，service mesg称之为sdiecar（跨斗），sidecar会和服务实例部署在一起,sidecar将内部服务通信、安全认证相关、监控、容错等和业务本身并无关系的业务逻辑抽象出来，这样开发人员可以集中精力进行业务代码开发，而微服务治理等工作则交给运维人员进行后续维护和处理。具体架构参照下图：</p>
+<p><img src="/images/servicemesh/1.png" alt="http://philcalcado.com/2017/08/03/pattern_service_mesh.html" title="http://philcalcado.com/2017/08/03/pattern_service_mesh.html"><br>图片来自：<a href="http://philcalcado.com/2017/08/03/pattern_service_mesh.html" target="_blank" rel="external">http://philcalcado.com/2017/08/03/pattern_service_mesh.html</a></p>
+<a id="more"></a>    
+<p>每个服务都有一个对应的agent代理实例，所有的服务均通过sidecar来实现互相通信，于是就形成以下这样的部署架构，看起来是不是很想一个个网格组成，这边是服务网格的来历(<em>^▽^</em>)</p>
+<p><img src="/images/servicemesh/2.png" alt="http://philcalcado.com/2017/08/03/pattern_service_mesh.html" title="http://philcalcado.com/2017/08/03/pattern_service_mesh.html"><br>图片来自：<a href="http://philcalcado.com/2017/08/03/pattern_service_mesh.html" target="_blank" rel="external">http://philcalcado.com/2017/08/03/pattern_service_mesh.html</a></p>
+<h1 id="service-mesh和传统的Spring-cloud等微服务治理组件有什么区别？"><a href="#service-mesh和传统的Spring-cloud等微服务治理组件有什么区别？" class="headerlink" title="service mesh和传统的Spring cloud等微服务治理组件有什么区别？"></a>service mesh和传统的Spring cloud等微服务治理组件有什么区别？</h1><p>&emsp;&emsp;相对于传统的Springcloud、OSS等微服务治理框架来说最大的区别就在于微服务本身与微服务治理基础设施之间的解耦，比如我们使用Spring Cloud的微服务套件来实现微服务治理（限流、服务容错、服务注册与发现、流量切换等功能）时，我们需要在微服务模块的代码中显示地引入微服务治理框架的依赖。这样做有两大弊端，一个是这种做法侵入性非常强，导致框架只能支持特定的语言平台，第二个是让开发人员除了关注业务逻辑开发以外还要关注和服务通信相关的以下细节。但是这一期在service mesh中都得到了很好的解决。如果使用Service mesh作为微服务的基础设施，那么服务本身并不需要依赖，微服务通过sidecar向他所依赖的服务发起通信请求。而至于微服务的治理则都交给Service mesh基础设施层的来实现。从而实现微服务的不用感知到微服务治理的存在，可以就像普通的调用一样，直接调用所以依赖的其他微服务模块。从而实现语言解耦合业务逻辑解耦。</p>
+<h1 id="什么是Istio"><a href="#什么是Istio" class="headerlink" title="什么是Istio"></a>什么是Istio</h1><p>&emsp;&emsp;Service Mesh目前有多种开源实现，比较流行的service mesh开源实现有：Istio（Google、IBM主导）和Linkerd和Conduit（Buoyant主导）,国内有华为、腾讯、蚂蚁金服等公司有自己的Service mesh的实现，蚂蚁金服的Sofa mesh将在今年7月份正式开源。其中Linkerd使用Scala语言开发本身对资源的消耗会是一个很大的问题，而conduit则使用rust语言开发，语言太过小众维护成本会比较高，istio则从诞生之日就自带光环，得到谷歌、IBM等大公司加持，自然受到了更多人的关注。国内的蚂蚁金服的自研的sofa mesh目前从公开出来的资料来看也是基于Istio开定制化开发的（用golang重写了sidecar，另外将istio中的mixer功能移到了sidecar里面）。Istio目前只支持与Kubernetes进行集成。</p>
+<h1 id="Istio特点："><a href="#Istio特点：" class="headerlink" title="Istio特点："></a>Istio特点：</h1><p>Istio主要提供四个在微服务架构比较关键的功能：</p>
+<ul>
+<li>流量管理。对服务间的网络通信进行流量限制和定向调度，这样可以实现微服务里面测降级、限流、灰度发布、金丝雀发布等高级功能。使服务更加稳定可靠。</li>
+<li>服务监控可视化。istio提供了强大的监控能力，可以对服务调用链路、拓扑、服务依赖等关系进行调度</li>
+<li>动态策略更新。istio最强大的地方是借鉴了sdn的思路，及控制平面和数据平面分开，控制策略下发给sidecar执行，无需应用程序做任何更改</li>
+<li>安全与服务认证，提供了较为全面的安全防护能力，实现在不可信的网络上进行安全的网络通信</li>
+</ul>
+<h1 id="istio架构"><a href="#istio架构" class="headerlink" title="istio架构"></a>istio架构</h1><p><img src="/images/servicemesh/3.png" alt="https://istio.io/docs/concepts/what-is-istio/overview/" title="https://istio.io/docs/concepts/what-is-istio/overview/"><br>图片来自<a href="https://istio.io/docs/concepts/what-is-istio/overview/" target="_blank" rel="external">https://istio.io/docs/concepts/what-is-istio/overview/</a><br>Istio主要分为数据平面和控制平面，其中</p>
+<ul>
+<li>数据平面由一组智能代理（Envoy）组成，Envoy就是service mesh里面的sidecar，用于调解和控制微服务之间的所有网络通信，以及动态接收来自mixer组件的相关策略以及上报监控数据</li>
+<li>控制平面负责管理和配置代理的路由和流量控制策略，并配置混合器以实施策略和收集来自envoy的监控数据。<h2 id="Envoy（sidecar）"><a href="#Envoy（sidecar）" class="headerlink" title="Envoy（sidecar）"></a>Envoy（sidecar）</h2>Istio使用Envoy代理的扩展版本，这是一种用C ++开发的高性能代理，用于控制服务网格中所有服务的所有入站和出站流量。Istio利用Envoy的许多内置功能，例如动态服务发现，负载平衡，TLS终止，HTTP / 2和gRPC代理，断路器，运行状况检查，基于百分比的流量分配的分阶段部署，故障注入和丰富的指标。特使在相同的Kubernetes吊舱中作为相关服务的边车部署。这允许Istio将关于流量行为的大量信号作为属性提取，这反过来它可以在Mixer中用于执行策略决策，并被发送到监控系统以提供有关整个网格行为的信息。sidecar代理模型还允许您将Istio功能添加到现有部署，而无需重新架构或重写代码。您可以在我们的设计目标中详细了解我们选择此方法的原因。<h2 id="Mixer"><a href="#Mixer" class="headerlink" title="Mixer"></a>Mixer</h2>Mixer是一个独立于平台的组件，负责跨服务网格实施访问控制和配额使用策略，并从Envoy代理和其他服务收集监控数据。sidecar提取请求报文中的相关元数据，然后将其发送到Mixer进行相关校验。<h2 id="Pilot"><a href="#Pilot" class="headerlink" title="Pilot"></a>Pilot</h2>Pilot为Envoy提供服务发现，为智能路由（例如，A / B测试，金丝雀部署等）提供流量管理功能，以及弹性（超时，重试，断路器等）。它将控制流量行为的高级路由规则转换为特定于Envoy的配置，并在运行时将它们传播到sidecar中。Pilot将特定于平台的服务发现机制抽象化，并将其合成为符合Envoy数据平面API的任何Sidecar所需要的标准格式。这种松散耦合允许Istio在多个环境（例如，Kubernetes，Consul / Nomad）上运行。<h2 id="Citadel"><a href="#Citadel" class="headerlink" title="Citadel"></a>Citadel</h2>Citadel提供强大的服务到服务和最终用户身份验证，内置身份和凭证管理。它可用于升级服务网格中的未加密流量。</li>
+</ul>
+<p>下一章我们将为大家详细剖析Istio详细工作流程，和例如流量配置等高级功能，尽情期待！</p>
+<p>本文参考资料如下：</p>
+<ul>
+<li><a href="https://blog.buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/" target="_blank" rel="external">https://blog.buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/</a></li>
+<li><a href="http://philcalcado.com/2017/08/03/pattern_service_mesh.html" target="_blank" rel="external">http://philcalcado.com/2017/08/03/pattern_service_mesh.html</a></li>
+<li><a href="https://www.nginx.com/blog/what-is-a-service-mesh/" target="_blank" rel="external">https://www.nginx.com/blog/what-is-a-service-mesh/</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/20/spring核心源码解析（3） - 获取bean（上）/" rel="next" title="spring核心源码解析（3） - 获取Bean(上)">
+                <i class="fa fa-chevron-left"></i> spring核心源码解析（3） - 获取Bean(上)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiangCluster</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

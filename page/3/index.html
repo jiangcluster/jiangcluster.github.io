@@ -228,6 +228,177 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/16/cas（Central Authentication Service）详细教程（3） - cas协议详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiangCluster">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="姜蜀黍的记事本">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/02/16/cas（Central Authentication Service）详细教程（3） - cas协议详解/" itemprop="url">cas（Central Authentication Service）详细教程（3） - cas协议详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-16T17:32:00+08:00">
+                2016-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cas/" itemprop="url" rel="index">
+                    <span itemprop="name">cas</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,779
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>CAS协议是一个简单且十分强大的基于票据管理的CAS专用协议，协议详细文档请移步<a href="http://jasig.github.io/cas/4.1.x/protocol/CAS-Protocol-Specification.html">http://jasig.github.io/cas/4.1.x/protocol/CAS-Protocol-Specification.html</a><br>该协议中涉及到一个或多个CAS客户端和服务端的交互，客户端嵌入了CAS的类库，而CAS服务端则是一个独立的应用程序。CAS服务端负责用户的认证和授予访问权限给访问请求。CAS客户端负责保护应用程序和接收CAS服务端对用户的认证数据。交互过程主要涉及到概念有：</p>
+<ul>
+<li>TGT（Ticket Granting Ticket），存储在名为CASTGC的cookie中，代表一个用户的单点登录session</li>
+<li>ST（Service Ticket）,作为Http的GET请求的一个参数在URL中传递，代表了CAS针对某个特定用户授予了准予访问的权限</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/02/16/cas（Central Authentication Service）详细教程（3） - cas协议详解/#espandi" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/15/cas（Central Authentication Service）详细教程（2） - cas结构详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -354,7 +525,7 @@
 <p>针对以上组件若未作特殊声明，均在deployerConfigContext.xml中配置</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/02/15/cas（Central Authentication Service）详细教程（2） - cas结构详解/#more" rel="contents">
+            <a class="btn" href="/2016/02/15/cas（Central Authentication Service）详细教程（2） - cas结构详解/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -522,7 +693,7 @@
 <p>它的目的是允许一个用户访问多个应用程序，而只需提供一次凭证（如用户名和密码）。它还允许web应用程序在没有获得用户的安全凭据（如密码）的情况下对用户进行身份验证，从总体架构上来看CAS包含服务端和客户端两个独立的组件，他们之间通过各种协议进行通信。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/02/13/cas（Central Authentication Service）详细教程（1） - 概述/#more" rel="contents">
+            <a class="btn" href="/2016/02/13/cas（Central Authentication Service）详细教程（1） - 概述/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -690,7 +861,7 @@
 <p>操作系统对计算机进行了抽象，将所有输入输出的设备抽象为文件。内核在进行文件I/O操作时，通过文件描述符进行管理，而文件描述符类似于应用程序与系统内核之间的凭证，应用程序如果需要进行I/O调用，需要先打开文件描述符，然后再根据文件描述符去实现文件的数据读写。从这个角度来讲阻塞I/O非阻塞I/O的区别在于阻塞I/O需要完成整个获取数据的过程。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/08/01/NodeJS知识点（1） - 异步IO/#more" rel="contents">
+            <a class="btn" href="/2015/08/01/NodeJS知识点（1） - 异步IO/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
