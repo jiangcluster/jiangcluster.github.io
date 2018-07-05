@@ -228,6 +228,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/22/JavaScript详细教程（8） - JavaScript中的面向对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiangCluster">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="姜蜀黍的记事本">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/11/22/JavaScript详细教程（8） - JavaScript中的面向对象/" itemprop="url">JavaScript详细教程（8） - JavaScript中的面向对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-22T21:52:00+08:00">
+                2016-11-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,137
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="利用JavaScript实现一个集合类"><a href="#利用JavaScript实现一个集合类" class="headerlink" title="利用JavaScript实现一个集合类"></a>利用JavaScript实现一个集合类</h2><p>集合（set）是一种数据结构，用以表示非重复值的无序集合，集合的基础方法包括添加值、检测值是否在集合中,以下代码将实现一个通用的set集合类：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">set</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">this</span>.values = &#123;&#125;;				<span class="comment">//集合数据保存在对象的属性里</span></div><div class="line">	<span class="keyword">this</span>.n = <span class="number">0</span>;						<span class="comment">//集合中值得个数</span></div><div class="line">	<span class="keyword">this</span>.add.apply(<span class="keyword">this</span>,<span class="built_in">arguments</span>);	<span class="comment">//将所有参数都添加进这个集合里</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//在函数原型对象中定义将所有参数添加进集合的函数</span></div><div class="line">set.prototype.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; <span class="built_in">arguments</span>.length; i++)&#123;</div><div class="line">		<span class="keyword">var</span> val = <span class="built_in">arguments</span>[i];</div><div class="line">		<span class="keyword">var</span> str = <span class="built_in">Set</span>.v2s(val);</div><div class="line">		<span class="keyword">if</span>(!<span class="keyword">this</span>.values.hasOwnProperty(str))&#123;</div><div class="line">		<span class="keyword">this</span>.values[str] = val;</div><div class="line">			<span class="keyword">this</span>.n++;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//如何集合包含这个值，则返回true，否则，返回false</span></div><div class="line"><span class="built_in">Set</span>.prototype.contains = <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.values.hasOwnProperty(<span class="built_in">Set</span>.v2s(value));</div><div class="line">&#125;;</div><div class="line"><span class="comment">//返回集合的大小</span></div><div class="line"><span class="built_in">Set</span>.prototype.size=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.n;</div><div class="line">&#125;</div><div class="line"><span class="comment">//遍历集合中的所有元素，在指定的上下文调用f</span></div><div class="line"><span class="built_in">Set</span>.prototype.foreach = <span class="function"><span class="keyword">function</span>(<span class="params">f, context</span>)</span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> s <span class="keyword">in</span> <span class="keyword">this</span>.values)&#123;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.values.hasOwnProperty(s))&#123;</div><div class="line">			f.call(context, <span class="keyword">this</span>.values[s])</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//这是一个内部函数，用以将任意JavaScript值和唯一的字符串对应起来</span></div><div class="line">set._v2s = <span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</div><div class="line">	<span class="keyword">switch</span>(val)&#123;</div><div class="line">		<span class="keyword">case</span> <span class="literal">undefined</span>:</div><div class="line">			<span class="keyword">return</span> <span class="string">'u'</span>;</div><div class="line">		<span class="keyword">case</span> <span class="literal">null</span>:</div><div class="line">			<span class="keyword">return</span> <span class="string">'n'</span>;</div><div class="line">		<span class="keyword">case</span> <span class="literal">true</span>:</div><div class="line">			<span class="keyword">return</span> <span class="string">'t'</span>;</div><div class="line">		<span class="keyword">case</span> <span class="literal">false</span>:</div><div class="line">			<span class="keyword">return</span> <span class="string">'f'</span>;</div><div class="line">		<span class="keyword">default</span>: <span class="keyword">switch</span>(<span class="keyword">typeof</span> val)&#123;</div><div class="line">			<span class="keyword">case</span> <span class="string">'number'</span>: <span class="keyword">return</span> <span class="string">'#'</span> + val;</div><div class="line">			<span class="keyword">case</span> <span class="string">'string'</span>: <span class="keyword">return</span> <span class="string">'"'</span> + val;</div><div class="line">				<span class="keyword">default</span>:<span class="keyword">return</span> <span class="string">'@'</span> + obejctId(val);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">//对任意对象来说，都会返回一个字符串</span></div><div class="line">	<span class="comment">//针对不同的对象，这个函数会返回不同的字符串</span></div><div class="line">	<span class="comment">//对于同一个对象多次调用，总是返回相同的字符串</span></div><div class="line">	<span class="comment">//为了做到这一点，它给o创建了一个属性，在ES5中，这个属性是不可枚举且是只读的</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">objectId</span>(<span class="params">o</span>)</span>&#123;</div><div class="line">		<span class="keyword">var</span> prop = <span class="string">"|**obejctId**|"</span>;</div><div class="line">		<span class="keyword">if</span>(!o.hasOwnProperty(prop))</div><div class="line">			o[prop] = <span class="built_in">Set</span>._v2s.next++;</div><div class="line">		<span class="keyword">return</span> o[prop];</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">Set</span>._v2s.next = <span class="number">100</span>;</div></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/11/22/JavaScript详细教程（8） - JavaScript中的面向对象/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/18/JavaScript详细教程（7） - JavaScript中的类 /">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1719,174 +1886,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/10/11/设计模式教程（1） - 对象创建型模式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/10/JavaScript详细教程（1） - 表达式和运算符/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="jiangCluster">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="姜蜀黍的记事本">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/10/10/JavaScript详细教程（1） - 表达式和运算符/" itemprop="url">JavaScript详细教程（1） - 表达式和运算符</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-10T22:14:00+08:00">
-                2016-10-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,217
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="原始表达式"><a href="#原始表达式" class="headerlink" title="原始表达式"></a>原始表达式</h1><h2 id="直接量"><a href="#直接量" class="headerlink" title="直接量"></a>直接量</h2><p>直接量是直接在程序中出现的常数值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"hello"</span></div></pre></td></tr></table></figure></p>
-<h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><p>JavaScript的一些保留字构成了原始表达式<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="literal">true</span> </div><div class="line"><span class="literal">false</span></div><div class="line"><span class="literal">null</span></div><div class="line"><span class="keyword">this</span></div></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/10/10/JavaScript详细教程（1） - 表达式和运算符/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
