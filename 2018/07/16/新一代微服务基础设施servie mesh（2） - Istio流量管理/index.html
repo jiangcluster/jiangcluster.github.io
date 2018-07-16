@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;前文我们提到过Service mesh分为control plane和data plane两个平面，data plane负责服务间的通信管理，而control plane负责策略配置收集监控数据鉴权等事项。严格意义来讲Istio只具有控制平面的功能，而在Istio中的data plane的功能是使用另外一个开源项目envoy来时实现的。这里为了不混淆，下文中的Istio只包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新一代微服务基础设施servie mesh（2） - Istio流量管理">
+<meta property="og:url" content="http://yoursite.com/2018/07/16/新一代微服务基础设施servie mesh（2） - Istio流量管理/index.html">
+<meta property="og:site_name" content="姜蜀黍的记事本">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;前文我们提到过Service mesh分为control plane和data plane两个平面，data plane负责服务间的通信管理，而control plane负责策略配置收集监控数据鉴权等事项。严格意义来讲Istio只具有控制平面的功能，而在Istio中的data plane的功能是使用另外一个开源项目envoy来时实现的。这里为了不混淆，下文中的Istio只包">
+<meta property="og:image" content="http://yoursite.com/images/servicemesh/2-1.png">
+<meta property="og:updated_time" content="2018-07-16T14:24:44.279Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="新一代微服务基础设施servie mesh（2） - Istio流量管理">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;前文我们提到过Service mesh分为control plane和data plane两个平面，data plane负责服务间的通信管理，而control plane负责策略配置收集监控数据鉴权等事项。严格意义来讲Istio只具有控制平面的功能，而在Istio中的data plane的功能是使用另外一个开源项目envoy来时实现的。这里为了不混淆，下文中的Istio只包">
+<meta name="twitter:image" content="http://yoursite.com/images/servicemesh/2-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"remove","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/16/新一代微服务基础设施servie mesh（2） - Istio流量管理/"/>
+
+
+
+
+
+  <title>新一代微服务基础设施servie mesh（2） - Istio流量管理 | 姜蜀黍的记事本</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">姜蜀黍的记事本</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa  fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa  fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/16/新一代微服务基础设施servie mesh（2） - Istio流量管理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jiangCluster">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="姜蜀黍的记事本">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">新一代微服务基础设施servie mesh（2） - Istio流量管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-16T22:23:00+08:00">
+                2018-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Service-mesh/" itemprop="url" rel="index">
+                    <span itemprop="name">Service mesh</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,386
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;前文我们提到过Service mesh分为control plane和data plane两个平面，data plane负责服务间的通信管理，而control plane负责策略配置收集监控数据鉴权等事项。严格意义来讲Istio只具有控制平面的功能，而在Istio中的data plane的功能是使用另外一个开源项目envoy来时实现的。这里为了不混淆，下文中的Istio只包括其control plane，而data plane使用envoy进行专指。前文已对Istio做完基本的介绍，按照正常的套路就应该介绍Istio的安装，但因为Istio的安装很简单，这里就不再赘述，大家可以移步<a href="https://istio.io/docs/setup/kubernetes/quick-start/。不过我们在安装的时候遇到几个问题可以在这里需要提一下：" target="_blank" rel="external">https://istio.io/docs/setup/kubernetes/quick-start/。不过我们在安装的时候遇到几个问题可以在这里需要提一下：</a></p>
+<ul>
+<li>安装istio时建议测试环境和没有外部业务通信的场景下建议不启动auth组件；</li>
+<li>安装sidecar可以选择使用istioctl 命令行工具手动将sidecar注入到应用所在的pod，或者使用Istio Initializer每次在创建pod的时候自动将sidecar注入到业务容器所在那个pod里面</li>
+<li>由于我们的k8s环境不支持loadbalance类型的TYPE，而istio-ingressgateway默认使用这个类型，导致在启动的时候pod都一直处于Pending状态，后来手动将类型改为nodeport，就可以正常启动。<a id="more"></a>    
+<h1 id="Istio组件介绍"><a href="#Istio组件介绍" class="headerlink" title="Istio组件介绍"></a>Istio组件介绍</h1>&emsp;&emsp;说完Istio的整体，那我们再看看看Istio的各个组件，先上一张官方文档里面的图：</li>
+</ul>
+<p><img src="/images/servicemesh/2-1.png" alt="http://philcalcado.com/2017/08/03/pattern_service_mesh.html" title="http://philcalcado.com/2017/08/03/pattern_service_mesh.html"></p>
+<p>图片来自<a href="https://istio.io/docs/concepts/what-is-istio/overview/" target="_blank" rel="external">https://istio.io/docs/concepts/what-is-istio/overview/</a></p>
+<p>&emsp;&emsp;可以看到Istio在控制平面实际上有三个较为关键的组件。mixer主要有功能有：1、转发前的check（黑白名单、quota等）、转发后上报数据（监控）。这里说个题外话，目前mixer是整个Istio的一个性能瓶颈点之一，比如一次mesh服务间的网络通信至少需要两次和mixer进行RPC通信（调用前的check和调用后的report），所以mixer后续会是我们在定制化的时候需要做大量的优化，关于mixer这里暂时先按下不表，咱们后文详细说。第三个citadel主要适用于安全证书和鉴权方面。<br>pilot主要是负责配置通信控制策略并下发给envoy组件，那到底有哪些策略可以配置呢，主要就是提供服务发现与注册服务治理、动态的更新负载均衡的后端服务实例（定时监测某个服务是否存活）、更新route table(例如根据http的后缀进行匹配以确定具体发送给服务的某个版本)以及管理访问Service mesh内部业务的流入流量（ingress）和service mesh内部访问外部服务的流出的流量(egress)。</p>
+<h1 id="istio中的请求路由"><a href="#istio中的请求路由" class="headerlink" title="istio中的请求路由"></a>istio中的请求路由</h1><p>&emsp;&emsp;istio的提供了所谓的服务版本的概念，通过将流量分发到同一服务的不同版本（或者不同的配置环境，例如：生产、测试等）就可以实现一个通用的流量路由控制场景，比如A/B测试等。当然也可以通过服务版本的概念实现负载均衡的分发策略。通过服务版本的模型，就可以实现业务与和他所依赖服务的解耦。</p>
+<p>&emsp;&emsp;Istio的流量路由配置是通过提供一套API来进行路由规则的配置，目前有3个版本的API。在Istio0.7.X版本支持的事config.istio.io/v1alpha2版本。在最近的0.8.0版本开始支持config.istio.io/v1alpha3版本API。v1alpha3版本的API对v1alpha2中的API进行重构，也提供了更为灵活和强大的路由配置规则来实现在4层和7层网络的的流量控制和高级别服务治理如：熔断、降级、超时。同时也提供了一些通用的持续发布能力，例如金丝雀发布、灰度发布、A/B test<br>&emsp;&emsp;下来我会顺着官方的文档进行介绍，会加入一些对此的理解。<br>&emsp;&emsp;我们先上一个完整的路由配置策略，一下这个配置示例是实现将流入的流量100%的分发给一个叫做reviews的V1版本。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> reviews</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">  -</span> reviews</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> reviews</div><div class="line"><span class="attr">        subset:</span> v1</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;以上配置表明所有访问reviews服务（通过hosts字段进行配置）的流量都会被路由到reviews服务下面的V1版本的具体实例。那么关于reviews服务具有多少个路由子集（subset）是在对应的同名DestinationRule资源对象中进行配置的。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> DestinationRule</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> reviews</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  host:</span> reviews</div><div class="line"><span class="attr">  subsets:</span></div><div class="line"><span class="attr">  - name:</span> v1</div><div class="line"><span class="attr">    labels:</span></div><div class="line"><span class="attr">      version:</span> v1</div><div class="line"><span class="attr">  - name:</span> v2</div><div class="line"><span class="attr">    labels:</span></div><div class="line"><span class="attr">      version:</span> v2</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;在subset配置中一般包含某个服务的一个或几个指定版本的服务实例，例如在使用kubernetes的deployment的资源对象进行部署的时候，这里的labels标签实际上就是和pod的label标签是等价的，例如在DestinationRule.subsets.labels=” version: v1”表示只有标注有version:v1这个label的pod会被导入请求流量。<br>&emsp;&emsp;在istio的v1alpha3版本API中有4个配置资源对象，分别是VirtualService, DestinationRule, ServiceEntry和Gateway。</p>
+<h1 id="virtualService配置资源对象"><a href="#virtualService配置资源对象" class="headerlink" title="virtualService配置资源对象"></a>virtualService配置资源对象</h1><p>virtualService表示一个对service mesh中的服务如何进行路由的资源配置对象。对于一个服务的请求，virtualService可以根据其请求源和请求目标或者根据HTTP的URL路径或者报文头的字段匹配来决定将其路由到一个服务的不同版本，甚至另外一个完全不同的服务上。</p>
+<h2 id="目标服务"><a href="#目标服务" class="headerlink" title="目标服务"></a>目标服务</h2><p>一个路由规则需要定义至少一个请求的最终目标服务，目标服务的配置就是在virtualService中的hosts字段，定义的目标服务也不需要和所映射的服务名保持名称一致，甚至在host中定义的目标服务后端不存在一个和名称对应的真实Service mesh 中的服务。在host中定义的服务名会被转义成kubernetes中的FQDN（ fully qualified domain names），例如hosts中配置名为reviews的服务，就会被扩展成reviews.default.svc.cluster.local</p>
+<h2 id="根据请求源进行路由规则匹配"><a href="#根据请求源进行路由规则匹配" class="headerlink" title="根据请求源进行路由规则匹配"></a>根据请求源进行路由规则匹配</h2><ol>
+<li>根据请求源服务来进行路由规则匹配，也就是说指定只有某个特定的服务来请求目标服务时，才会被路由规则匹配并且将请求转发给指定目标服务，例如以下配置：<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> ratings</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">  -</span> ratings</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - match:</span></div><div class="line"><span class="attr">      sourceLabels:</span></div><div class="line"><span class="attr">        app:</span> reviews</div><div class="line">    ...</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这里的sourcelaLabels属性对应的值就是限制请求源服务的，在k8s里面就是需要请求源服务被设置了 app: reviews这个值<br>2、 限制源服务除了指定具体的服务明以外，还可以更细粒度也就是服务的版本，比如下面配置表示，只有reviews这个mesh服务的V2版本才能匹配成功。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> ratings</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">  -</span> ratings</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - match:</span></div><div class="line"><span class="attr">    - sourceLabels:</span></div><div class="line"><span class="attr">        app:</span> reviews</div><div class="line"><span class="attr">        version:</span> v2</div><div class="line">    ...</div></pre></td></tr></table></figure></p>
+<p>3、 还可以通过请求的HTTP报文头里面的某个属性字段来进行匹配，甚至可以支持正则表达式和一次设置多个表达式。这里就不再一一举例，详情请各位看官参照文档</p>
+<h2 id="根据服务的版本分发流量"><a href="#根据服务的版本分发流量" class="headerlink" title="根据服务的版本分发流量"></a>根据服务的版本分发流量</h2><p>每个路由规则都会定义一个或多个被规则引入流量的目标服务，目标服务对应会有版本，版本号是通过label标签来进行标识的，若一个服务的某一个版本有多个注册实例，则按照设置好的轮询算法或者使用默认的round-robin算法进行负责均衡，负载均衡的流量比例通过weight字段来标识，例如下列配置demo<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> reviews</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">    -</span> reviews</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> reviews</div><div class="line"><span class="attr">        subset:</span> v1</div><div class="line"><span class="attr">      weight:</span> <span class="number">75</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> reviews</div><div class="line"><span class="attr">        subset:</span> v2</div><div class="line"><span class="attr">      weight:</span> <span class="number">25</span></div></pre></td></tr></table></figure></p>
+<h2 id="超时和重试"><a href="#超时和重试" class="headerlink" title="超时和重试"></a>超时和重试</h2><p>在Istio中的默认超时时间是15s,但是可以通过定义timeout属性来重写超时时间，如下配置：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> ratings</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">    -</span> ratings</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> ratings</div><div class="line"><span class="attr">        subset:</span> v1</div><div class="line"><span class="attr">    retries:</span></div><div class="line"><span class="attr">      attempts:</span> <span class="number">3</span></div><div class="line"><span class="attr">      perTryTimeout:</span> <span class="number">2</span>s</div></pre></td></tr></table></figure></p>
+<p>重试次数也可以通过配置实现，配置的时候需要给定两个值，重试的最大重试次数和每次重试的超时时间，如下配置：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> ratings</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">    -</span> ratings</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> ratings</div><div class="line"><span class="attr">        subset:</span> v1</div><div class="line"><span class="attr">    retries:</span></div><div class="line"><span class="attr">      attempts:</span> <span class="number">3</span></div><div class="line"><span class="attr">      perTryTimeout:</span> <span class="number">2</span>s</div></pre></td></tr></table></figure></p>
+<h2 id="在请求中注入错误"><a href="#在请求中注入错误" class="headerlink" title="在请求中注入错误"></a>在请求中注入错误</h2><p>在Istio中注入的错误类型可以分为两种类型：超时和终止。以下配置表示有10%的访问ratings服务V1版本的请求将会有至少5s的延时。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> ratings</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">  -</span> ratings</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - fault:</span></div><div class="line"><span class="attr">      delay:</span></div><div class="line"><span class="attr">        percent:</span> <span class="number">10</span></div><div class="line"><span class="attr">        fixedDelay:</span> <span class="number">5</span>s</div><div class="line"><span class="attr">    route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> ratings</div><div class="line"><span class="attr">        subset:</span> v1</div></pre></td></tr></table></figure></p>
+<p>在另外一种注入错误：终止。可以用来提起终止一个请求，例如以下配置表示有10%的访问rating服务V1版本的请求将会返回HTTP400错误<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> ratings</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">  -</span> ratings</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - fault:</span></div><div class="line"><span class="attr">      abort:</span></div><div class="line"><span class="attr">        percent:</span> <span class="number">10</span></div><div class="line"><span class="attr">        httpStatus:</span> <span class="number">400</span></div><div class="line"><span class="attr">    route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> ratings</div><div class="line"><span class="attr">        subset:</span> v1</div></pre></td></tr></table></figure></p>
+<p>超时与提前终止请求可以同时使用，以下配置将使所有请求都延迟5s，并且其中的10%直接返回400错误<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> ratings</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">  -</span> ratings</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - match:</span></div><div class="line"><span class="attr">    - sourceLabels:</span></div><div class="line"><span class="attr">        app:</span> reviews</div><div class="line"><span class="attr">        version:</span> v2</div><div class="line"><span class="attr">    fault:</span></div><div class="line"><span class="attr">      delay:</span></div><div class="line"><span class="attr">        fixedDelay:</span> <span class="number">5</span>s</div><div class="line"><span class="attr">      abort:</span></div><div class="line"><span class="attr">        percent:</span> <span class="number">10</span></div><div class="line"><span class="attr">        httpStatus:</span> <span class="number">400</span></div><div class="line"><span class="attr">    route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> ratings</div><div class="line"><span class="attr">        subset:</span> v1</div></pre></td></tr></table></figure></p>
+<h2 id="HTTP路由规则的优先级顺序"><a href="#HTTP路由规则的优先级顺序" class="headerlink" title="HTTP路由规则的优先级顺序"></a>HTTP路由规则的优先级顺序</h2><p>当对于目标服务有多个规则是，则按照他们在virtualService中出现的顺序进行优先级排序，在编写请求路由时，有一个路由编写规范就是match匹配请求源和请求报文头放到最前面以设置最高优先级，然后再单独提供基于权重但是没有匹配表达式的weight规则来匹配剩余的请求流量。例如对于下面的配置中的virtualService有两条对应的目标规则。指定了所有的请求如果报文头中包含Foo字段并且其值为bar则将流量发送到V2版本实例。剩余的请求流量将路由至V1版本实例<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> reviews</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">  -</span> reviews</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - match:</span></div><div class="line"><span class="attr">    - headers:</span></div><div class="line"><span class="attr">        Foo:</span></div><div class="line"><span class="attr">          exact:</span> bar</div><div class="line"><span class="attr">    route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> reviews</div><div class="line"><span class="attr">        subset:</span> v2</div><div class="line"><span class="attr">  - route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> reviews</div><div class="line"><span class="attr">        subset:</span> v1</div></pre></td></tr></table></figure></p>
+<h1 id="Destination-Rules配置资源对象"><a href="#Destination-Rules配置资源对象" class="headerlink" title="Destination Rules配置资源对象"></a>Destination Rules配置资源对象</h1><p>Destination Rules配置了一系列的规则用于在virtualService已经匹配成功后的后续路由动作，主要用于描述熔断器、负载均衡策略，TLS设置等等相关配置。destinationRules会定义好一个目标服务对应的的子集（subset）。这个subset将根据VirtualService匹配后的请求路由到制定的某个服务的具体版本上。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> DestinationRule</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> reviews</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  host:</span> reviews</div><div class="line"><span class="attr">  trafficPolicy:</span></div><div class="line"><span class="attr">    loadBalancer:</span></div><div class="line"><span class="attr">      simple:</span> RANDOM</div><div class="line"><span class="attr">  subsets:</span></div><div class="line"><span class="attr">  - name:</span> v1</div><div class="line"><span class="attr">    labels:</span></div><div class="line"><span class="attr">      version:</span> v1</div><div class="line"><span class="attr">  - name:</span> v2</div><div class="line"><span class="attr">    labels:</span></div><div class="line"><span class="attr">      version:</span> v2</div><div class="line"><span class="attr">    trafficPolicy:</span></div><div class="line"><span class="attr">      loadBalancer:</span></div><div class="line"><span class="attr">        simple:</span> ROUND_ROBIN</div><div class="line"><span class="attr">  - name:</span> v3</div><div class="line"><span class="attr">    labels:</span></div><div class="line"><span class="attr">      version:</span> v3</div></pre></td></tr></table></figure></p>
+<p>host层面已经指定了默认的负载均衡策略，但在V2服务版本的配置重写了默认的负载均衡策略，这样当V2版本有多个实例时，则可以根据这个重写的规则来确定具体的负载均衡分发策略</p>
+<h2 id="熔断器"><a href="#熔断器" class="headerlink" title="熔断器"></a>熔断器</h2><p>一个简单的熔断器配置可以根据连接和请求的流量最大值进行限流，例如以下配置中，在DestinationRule设置了reviews服务最大可以建立100个连接<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> DestinationRule</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> reviews</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  host:</span> reviews</div><div class="line"><span class="attr">  subsets:</span></div><div class="line"><span class="attr">  - name:</span> v1</div><div class="line"><span class="attr">    labels:</span></div><div class="line"><span class="attr">      version:</span> v1</div><div class="line"><span class="attr">    trafficPolicy:</span></div><div class="line"><span class="attr">      connectionPool:</span></div><div class="line"><span class="attr">        tcp:</span></div><div class="line"><span class="attr">          maxConnections:</span> <span class="number">100</span></div></pre></td></tr></table></figure></p>
+<h1 id="Service-Entries配置资源对象"><a href="#Service-Entries配置资源对象" class="headerlink" title="Service Entries配置资源对象"></a>Service Entries配置资源对象</h1><p>ServiceEntry允许将外部服务注册到istio内部维护的注册表里，这个主要就是为了service mesh内部访问外部的服务。例如以下配置就是将在*.abc.com域名下的外部服务声明为一个服务，共service mesh内部访问<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> ServiceEntry</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> foo-ext-svc</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">  -</span> *.foo.com</div><div class="line"><span class="attr">  ports:</span></div><div class="line"><span class="attr">  - number:</span> <span class="number">80</span></div><div class="line"><span class="attr">    name:</span> http</div><div class="line"><span class="attr">    protocol:</span> HTTP</div><div class="line"><span class="attr">  - number:</span> <span class="number">443</span></div><div class="line"><span class="attr">    name:</span> https</div><div class="line"><span class="attr">    protocol:</span> HTTPS</div></pre></td></tr></table></figure></p>
+<p>ServiceEntry分为内部和外部两种类型，内部服务和其他service mesh服务没有什么区别，只是为了显示的声明将某个服务注册到service mesh中。例如将某个私有云内部部署在虚拟机上面的业务显式地添加到基于k8s的service mesh服务当中。外部类型就主要表示外部服务，此类外部服务无法使用TLS进行通信，并且很多策略的控制都是在客户端进行的，而不是像在内部服务请求一样在服务端执行策略。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> bar-foo-ext-svc</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">    -</span> bar.foo.com</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> bar.foo.com</div><div class="line"><span class="attr">    timeout:</span> <span class="number">10</span>s</div></pre></td></tr></table></figure></p>
+<h1 id="gateway配置资源对象"><a href="#gateway配置资源对象" class="headerlink" title="gateway配置资源对象"></a>gateway配置资源对象</h1><p>gateway为HTTP/TCP流量配置负载均衡器，最常见的是在service meshb边缘运行，以启用控制流入service mesh的流量。与Kubernetes Ingress不同，Istio Gateway仅配置L4-L6功能（例如，要暴露的端口，TLS配置)。用户可以使用标准的Istio规则来控制HTTP请求以及通过将VirtualService绑定到网关而进入网关的TCP流量。例如，以下简单网关配置负载均衡器，以允许主机bookinfo.com的外部https流量进入service mesh：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> Gateway</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> bookinfo-gateway</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  servers:</span></div><div class="line"><span class="attr">  - port:</span></div><div class="line"><span class="attr">      number:</span> <span class="number">443</span></div><div class="line"><span class="attr">      name:</span> https</div><div class="line"><span class="attr">      protocol:</span> HTTPS</div><div class="line"><span class="attr">    hosts:</span></div><div class="line"><span class="bullet">    -</span> bookinfo.com</div><div class="line"><span class="attr">    tls:</span></div><div class="line"><span class="attr">      mode:</span> SIMPLE</div><div class="line"><span class="attr">      serverCertificate:</span> /tmp/tls.crt</div><div class="line"><span class="attr">      privateKey:</span> /tmp/tls.key</div></pre></td></tr></table></figure></p>
+<p>如果要映射路由到后端的具体某个服务还需要配置相应的路由，virtualService必须使用配置gateway定义的为同一host配置VirtualService：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> bookinfo</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">    -</span> bookinfo.com</div><div class="line"><span class="attr">  gateways:</span></div><div class="line"><span class="bullet">  -</span> bookinfo-gateway <span class="comment"># &lt;---- bind to gateway</span></div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - match:</span></div><div class="line"><span class="attr">    - uri:</span></div><div class="line"><span class="attr">        prefix:</span> /reviews</div><div class="line"><span class="attr">    route:</span></div><div class="line">    ...</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:18px;">-------------本文到此结束，感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/05/【题外话】英语时态介绍/" rel="next" title="【题外话】英语时态介绍">
+                <i class="fa fa-chevron-left"></i> 【题外话】英语时态介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiangCluster</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
