@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="姜蜀黍的记事本">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;前文我们提到过Service mesh分为control plane和data plane两个平面，data plane负责服务间的通信管理，而control plane负责策略配置收集监控数据鉴权等事项。严格意义来讲Istio只具有控制平面的功能，而在Istio中的data plane的功能是使用另外一个开源项目envoy来时实现的。这里为了不混淆，下文中的Istio只包">
 <meta property="og:image" content="http://yoursite.com/images/servicemesh/2-1.png">
-<meta property="og:updated_time" content="2018-07-16T14:24:44.279Z">
+<meta property="og:updated_time" content="2018-07-17T07:49:29.085Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新一代微服务基础设施servie mesh（2） - Istio流量管理">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;前文我们提到过Service mesh分为control plane和data plane两个平面，data plane负责服务间的通信管理，而control plane负责策略配置收集监控数据鉴权等事项。严格意义来讲Istio只具有控制平面的功能，而在Istio中的data plane的功能是使用另外一个开源项目envoy来时实现的。这里为了不混淆，下文中的Istio只包">
@@ -347,11 +347,12 @@
 <ul>
 <li>安装istio时建议测试环境和没有外部业务通信的场景下建议不启动auth组件；</li>
 <li>安装sidecar可以选择使用istioctl 命令行工具手动将sidecar注入到应用所在的pod，或者使用Istio Initializer每次在创建pod的时候自动将sidecar注入到业务容器所在那个pod里面</li>
-<li>由于我们的k8s环境不支持loadbalance类型的TYPE，而istio-ingressgateway默认使用这个类型，导致在启动的时候pod都一直处于Pending状态，后来手动将类型改为nodeport，就可以正常启动。<a id="more"></a>    
-<h1 id="Istio组件介绍"><a href="#Istio组件介绍" class="headerlink" title="Istio组件介绍"></a>Istio组件介绍</h1>&emsp;&emsp;说完Istio的整体，那我们再看看看Istio的各个组件，先上一张官方文档里面的图：</li>
+<li>由于我们的k8s环境不支持loadbalance类型的TYPE，而istio-ingressgateway默认使用这个类型，导致在启动的时候pod都一直处于Pending状态，后来手动将类型改为nodeport，就可以正常启动。</li>
 </ul>
+<h1 id="Istio组件介绍"><a href="#Istio组件介绍" class="headerlink" title="Istio组件介绍"></a>Istio组件介绍</h1><p>&emsp;&emsp;说完Istio的整体，那我们再看看看Istio的各个组件，先上一张官方文档里面的图：</p>
 <p><img src="/images/servicemesh/2-1.png" alt="http://philcalcado.com/2017/08/03/pattern_service_mesh.html" title="http://philcalcado.com/2017/08/03/pattern_service_mesh.html"></p>
 <p>图片来自<a href="https://istio.io/docs/concepts/what-is-istio/overview/" target="_blank" rel="external">https://istio.io/docs/concepts/what-is-istio/overview/</a></p>
+<a id="more"></a>    
 <p>&emsp;&emsp;可以看到Istio在控制平面实际上有三个较为关键的组件。mixer主要有功能有：1、转发前的check（黑白名单、quota等）、转发后上报数据（监控）。这里说个题外话，目前mixer是整个Istio的一个性能瓶颈点之一，比如一次mesh服务间的网络通信至少需要两次和mixer进行RPC通信（调用前的check和调用后的report），所以mixer后续会是我们在定制化的时候需要做大量的优化，关于mixer这里暂时先按下不表，咱们后文详细说。第三个citadel主要适用于安全证书和鉴权方面。<br>pilot主要是负责配置通信控制策略并下发给envoy组件，那到底有哪些策略可以配置呢，主要就是提供服务发现与注册服务治理、动态的更新负载均衡的后端服务实例（定时监测某个服务是否存活）、更新route table(例如根据http的后缀进行匹配以确定具体发送给服务的某个版本)以及管理访问Service mesh内部业务的流入流量（ingress）和service mesh内部访问外部服务的流出的流量(egress)。</p>
 <h1 id="istio中的请求路由"><a href="#istio中的请求路由" class="headerlink" title="istio中的请求路由"></a>istio中的请求路由</h1><p>&emsp;&emsp;istio的提供了所谓的服务版本的概念，通过将流量分发到同一服务的不同版本（或者不同的配置环境，例如：生产、测试等）就可以实现一个通用的流量路由控制场景，比如A/B测试等。当然也可以通过服务版本的概念实现负载均衡的分发策略。通过服务版本的模型，就可以实现业务与和他所依赖服务的解耦。</p>
 <p>&emsp;&emsp;Istio的流量路由配置是通过提供一套API来进行路由规则的配置，目前有3个版本的API。在Istio0.7.X版本支持的事config.istio.io/v1alpha2版本。在最近的0.8.0版本开始支持config.istio.io/v1alpha3版本API。v1alpha3版本的API对v1alpha2中的API进行重构，也提供了更为灵活和强大的路由配置规则来实现在4层和7层网络的的流量控制和高级别服务治理如：熔断、降级、超时。同时也提供了一些通用的持续发布能力，例如金丝雀发布、灰度发布、A/B test<br>&emsp;&emsp;下来我会顺着官方的文档进行介绍，会加入一些对此的理解。<br>&emsp;&emsp;我们先上一个完整的路由配置策略，一下这个配置示例是实现将流入的流量100%的分发给一个叫做reviews的V1版本。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> networking.istio.io/v1alpha3</div><div class="line"><span class="attr">kind:</span> VirtualService</div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> reviews</div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  hosts:</span></div><div class="line"><span class="bullet">  -</span> reviews</div><div class="line"><span class="attr">  http:</span></div><div class="line"><span class="attr">  - route:</span></div><div class="line"><span class="attr">    - destination:</span></div><div class="line"><span class="attr">        host:</span> reviews</div><div class="line"><span class="attr">        subset:</span> v1</div></pre></td></tr></table></figure></p>
@@ -420,6 +421,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/05/新一代微服务基础设施servie mesh（3） - Envoy简要介绍/" rel="prev" title="新一代微服务基础设施servie mesh（3） - Envoy简要介绍">
+                新一代微服务基础设施servie mesh（3） - Envoy简要介绍 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
