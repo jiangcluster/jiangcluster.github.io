@@ -81,18 +81,18 @@
 
 <meta name="description" content="&amp;emsp;&amp;emsp;就在前不久的8月1号，Istio正式发布1.0版本。1.0版本相对较0.8版本在性能方面有较大提升，并且将支持多个 Kubernetes集群添加到单个网格中升级为beta版本、新增支持增量上线双向TLS以及Mixer支持开发进程外适配器等新特性。从最初的0.1版本到今天1.0版本，一共经历了一年多的时间，Istio的快速发展以及各大公司的跟进说明了Istio的理念和技术逐渐">
 <meta property="og:type" content="article">
-<meta property="og:title" content="新一代微服务基础设施servie mesh（3） - Envoy简要介绍">
+<meta property="og:title" content="新一代微服务基础设施servie mesh（3） - envoy简要介绍">
 <meta property="og:url" content="http://yoursite.com/2018/08/05/新一代微服务基础设施servie mesh（3） - Envoy简要介绍/index.html">
 <meta property="og:site_name" content="姜蜀黍的记事本">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;就在前不久的8月1号，Istio正式发布1.0版本。1.0版本相对较0.8版本在性能方面有较大提升，并且将支持多个 Kubernetes集群添加到单个网格中升级为beta版本、新增支持增量上线双向TLS以及Mixer支持开发进程外适配器等新特性。从最初的0.1版本到今天1.0版本，一共经历了一年多的时间，Istio的快速发展以及各大公司的跟进说明了Istio的理念和技术逐渐">
-<meta property="og:image" content="http://yoursite.com/images/servicemesh/3-1.png">
-<meta property="og:image" content="http://yoursite.com/images/servicemesh/3-2.png">
-<meta property="og:image" content="http://yoursite.com/images/servicemesh/3-3.png">
-<meta property="og:updated_time" content="2018-08-09T09:02:38.732Z">
+<meta property="og:image" content="http://yoursite.com/../images/servicemesh/3-1.png">
+<meta property="og:image" content="http://yoursite.com/../images/servicemesh/3-2.png">
+<meta property="og:image" content="http://yoursite.com/../images/servicemesh/3-3.png">
+<meta property="og:updated_time" content="2018-08-10T02:53:42.410Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="新一代微服务基础设施servie mesh（3） - Envoy简要介绍">
+<meta name="twitter:title" content="新一代微服务基础设施servie mesh（3） - envoy简要介绍">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;就在前不久的8月1号，Istio正式发布1.0版本。1.0版本相对较0.8版本在性能方面有较大提升，并且将支持多个 Kubernetes集群添加到单个网格中升级为beta版本、新增支持增量上线双向TLS以及Mixer支持开发进程外适配器等新特性。从最初的0.1版本到今天1.0版本，一共经历了一年多的时间，Istio的快速发展以及各大公司的跟进说明了Istio的理念和技术逐渐">
-<meta name="twitter:image" content="http://yoursite.com/images/servicemesh/3-1.png">
+<meta name="twitter:image" content="http://yoursite.com/../images/servicemesh/3-1.png">
 
 
 
@@ -128,7 +128,7 @@
 
 
 
-  <title>新一代微服务基础设施servie mesh（3） - Envoy简要介绍 | 姜蜀黍的记事本</title>
+  <title>新一代微服务基础设施servie mesh（3） - envoy简要介绍 | 姜蜀黍的记事本</title>
   
 
 
@@ -252,7 +252,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">新一代微服务基础设施servie mesh（3） - Envoy简要介绍</h1>
+          <h1 class="post-title" itemprop="name headline">新一代微服务基础设施servie mesh（3） - envoy简要介绍</h1>
         
 
         <div class="post-meta">
@@ -320,7 +320,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,452
+                  2,616
                 </span>
               
 
@@ -346,33 +346,35 @@
 
       
         <p>&emsp;&emsp;就在前不久的8月1号，Istio正式发布1.0版本。1.0版本相对较0.8版本在性能方面有较大提升，并且将支持多个 Kubernetes集群添加到单个网格中升级为beta版本、新增支持增量上线双向TLS以及Mixer支持开发进程外适配器等新特性。从最初的0.1版本到今天1.0版本，一共经历了一年多的时间，Istio的快速发展以及各大公司的跟进说明了Istio的理念和技术逐渐得到众多公司的青睐，Istio的未来真是不可限量。</p>
-<h1 id="与nginx的比较"><a href="#与nginx的比较" class="headerlink" title="与nginx的比较"></a>与nginx的比较</h1><p>&emsp;&emsp;Nginx作为老牌的反向代理和负载均衡的web服务器。高性能和稳定性以及扩展性（这里指的是openresty通过lua的方式进行扩展）一直是其受到青睐的主要原因，但是相对envoy，nginx在以下几方面有明显的劣势：</p>
-<ul>
+<h1 id="与nginx的比较"><a href="#与nginx的比较" class="headerlink" title="与nginx的比较"></a>与nginx的比较</h1><p>&emsp;&emsp;Nginx作为老牌的反向代理web服务器。高性能、良好的稳定性和扩展性一直是其受到各大技术厂商作为网络代理的首选。但是随着微服务架构的兴起，相对envoy，nginx在以下几方面有明显的劣势：</p>
+<ol>
 <li>开源版本不支持动态配置，配置需要reload才能更新。</li>
 <li>开源版本不支持高级的负载均衡算法。</li>
 <li>扩展性不如envoy，envoy的配置都是通过xds系列API暴露出来的，可以用任何语言进行实现。nginx的扩展性主要还是靠openresty此类的发行版本用lua脚本的方式进行高级功能的定制化开发，要求开发人员必须要会lua才行。</li>
 <li>对service mesh的支持不如envoy，这个就不用说了，Istio就是用envoy来做sidecar。nginx也推出了基于nginx的service mesh解决方案，不过目前还是预览版本。</li>
-<li>不支持上游的HTTP/2透明代理，目前仅支持HTTP/2下游连接。<a id="more"></a>    
-</li>
-</ul>
-<h1 id="Envoy的主要特性"><a href="#Envoy的主要特性" class="headerlink" title="Envoy的主要特性"></a>Envoy的主要特性</h1><p>&emsp;&emsp;言归正传，书说前文分别介绍了Istio和Istio控制平面的的路由规则配置语法，本章将讲解Istio所使用的默认数据平面组件Envoy的相关概念以及简单的使用教程，帮助初学者快速了解这一新兴的L7层网络代理工具。<br>&emsp;&emsp;Envoy是由Lyft公司开源的7层网络代理以及数据控制总线，目前它已经进入CNCF。Lyft公司将Envoy定位为”专为大型的、现代的服务架构而生“。因为在大型面向服务的架构里面网络通信往往非常负责，对于各个应用开发者来说希望网络通信对于应用来说完全透明，并当在大型面向服务架构中网络通信出现问题时，可以第一时间感知到问题以及问题发生的原因。我从官方提供的文档里面引用了Envoy的几个主要的feature：</p>
+<li><p>不支持上游的HTTP/2透明代理，目前仅支持HTTP/2下游连接。</p>
+<a id="more"></a>    
+<h1 id="envoy的主要特性"><a href="#envoy的主要特性" class="headerlink" title="envoy的主要特性"></a>envoy的主要特性</h1></li>
+</ol>
+<p>&emsp;&emsp;言归正传，书说前文分别介绍了Istio和Istio控制平面的的路由规则配置语法，本章将讲解Istio所使用的默认数据平面组件envoy的相关概念以及简单的使用教程，帮助初学者快速了解这一新兴的L7层网络代理工具。<br>&emsp;&emsp;envoy是由Lyft公司开源的7层网络代理以及数据控制总线，目前它已经进入CNCF。Lyft公司将envoy定位为”专为大型的、现代的服务架构而生“。因为在大型面向服务的架构里面网络通信往往非常负责，对于各个应用开发者来说希望网络通信对于应用来说完全透明，并当在大型面向服务架构中网络通信出现问题时，可以第一时间感知到问题以及问题发生的原因。我从官方提供的文档里面引用了envoy的几个主要的feature：</p>
 <ul>
-<li>采用进程外架构，不需要侵入应用，和应用完全解耦。所谓进程外架构就是指，Envoy是一个独立的进程，它和每个应用程序部署在一起。这样应用只需要使用localhost和envoy进行通信，然后由envoy来进行后续的转发等网络通信动作。这样做的好处有两个：一是实现与应用的语言无关性，通过envoy解耦，不同语言之间的通信变得透明，不要进行某些语言的特定实现。第二是解决大型服务架构中侵入式依赖lib库的升级非常繁琐和各种兼容问题的问题。</li>
-<li>提供L3/L4的过滤器架构：Envoy的核心是一个网络代码，它提供了一个可插拔式的过滤器链（java的同学可以用servlet的过滤器链进行类比）机制，以通过过滤器实现不同的TCP代理任务，例如TCP代理、HTTP代理，TLS客户端证书验证等TCP代理任务。</li>
-<li>提供HTTP L7过滤器架构：HTTP协议作为现代应用架构中重要的一个组件，Envoy提供了额外的HTTP L7层过滤器的支持。HTTP过滤器能够被装入HTTP连接管理子系统中，实现例如缓存、限流、HTTP路由以及嗅探Amazon DynamoDB等基于HTTP协议的高级管理任务。</li>
-<li>提供全面HTTP/2的支持：挡在HTTP模式下运行时，Envoy既支持HTTP/1.1以及HTTP/2.0。这个特性也就意味着HTTP/1.1和HTT/P2.0的客户端可以通过Envoy的桥接实现与任意的HTTP/1.1和HTTP/2.0的通信。Envoy推荐使用HTTP/2.0来实现所有Envoy之间的连接，这样可以尽量使用多路复用技术实现多个请求和应答的共有一个链接</li>
-<li>提供HTTP L7路由功能，在HTTP模式下，Envoy提供的HTTP路由子系统可以基于HTTP路径、authority, 内容类型, 运行时等字段实现HTTP请求的路由和重定向。这个功能在Envoy当作前端或者边缘网关亦或是构建一个service mesh的服务时非常有用。</li>
-<li>提供对gRPC的支持，这是一个激动人心的功能，部分对于HTTP性能望而却步的公司，对于gRPC的需求就很强烈了。目前Nginx最新版本也支持了gRPC的代理，但是目前能够实现的功能有限。Envoy 支持被 gRPC 请求和响应的作为路由和负载均衡底层的所有 HTTP/2 功能。</li>
-<li>服务发现，Envoy 通过一种服务发现服务（service discovery service，就是SDS API）的方式支持多种服务发现方式，包括异步 DNS 解析和基于 REST 的查找。Envoy支持通过REST API以及异步DNS的方式进行服务发现</li>
-<li>健康检查，Envoy 包含了一个健康检查子系统，可以选择对上游服务集群执行主动健康检查。然后，Envoy 联合使用服务发现和健康检查信息来确定健康的负载均衡目标。Envoy 还通过异常检测子系统支持被动健康检查。</li>
-<li>负载均衡，负载均衡是分布式系统中不同组件之间的一个复杂问题。由于 Envoy 是一个独立代理而不是库，因此可以独立实现高级负载负载以供任何应用程序访问。目前，Envoy 支持自动重试 、熔断、通过外部速率限制服务的全局速率限制、请求映射和异常点检测。</li>
-<li>前端/边缘代理支持：尽管 Envoy 主要设计用来作为一个服务间的通信系统，但在系统边缘使用相同的软件也是大有好处的（可观察性、管理、相同的服务发现和负载均衡算法等）。Envoy 包含足够多的功能，使其可作为大多数现代 Web 应用程序的边缘代理。这包括 TLS 终止、HTTP/1.1 和 HTTP/2 支持，以及 HTTP L7 路由。</li>
-<li>最佳的可观察性： Envoy 的主要目标是使网络透明。但是，问题在网络层面和应用层面都可能会出现。Envoy 包含对所有子系统强大的统计功能支持。目前支持 statsd（和兼容的提供程序）作为统计信息接收器，但是插入不同的接收器并不困难。统计信息也可以通过管理端口查看。Envoy 还通过第三方提供商支持分布式追踪。</li>
-<li>动态配置：Envoy 可以选择使用动态配置 API 的分层集合。如果需要，实现者可以使用这些 API 来构建复杂的集中管理部署。</li>
+<li>采用进程外架构，不需要侵入应用，和应用完全解耦。所谓进程外架构就是指，envoy是一个独立的进程，它和每个应用程序部署在一起。这样应用只需要使用localhost和envoy进行通信，然后由envoy来进行后续的转发等网络通信动作。这样做的好处有两个：一是实现与应用的语言无关性，通过envoy解耦，不同语言之间的通信变得透明，不要进行某些语言的特定实现。第二是解决大型服务架构中侵入式依赖lib库的升级非常繁琐和各种兼容问题的问题。</li>
+<li>提供L3/L4的过滤器架构，envoy的核心是一个网络代码，它提供了一个可插拔式的过滤器链（java的同学可以用servlet的过滤器链进行类比）机制，以通过过滤器实现不同的TCP代理任务，例如TCP代理、HTTP代理，TLS客户端证书验证等TCP代理任务。</li>
+<li>提供HTTP L7过滤器架构，HTTP协议作为现代应用架构中重要的一个组件，envoy提供了额外的HTTP L7层过滤器的支持。HTTP过滤器能够被装入HTTP连接管理子系统中，实现例如缓存、限流、HTTP路由以及嗅探Amazon DynamoDB等基于HTTP协议的高级管理任务。</li>
+<li>提供全面HTTP/2的支持：挡在HTTP模式下运行时，envoy既支持HTTP/1.1以及HTTP/2.0。这个特性也就意味着HTTP/1.1和HTT/P2.0的客户端可以通过envoy的桥接实现与任意的HTTP/1.1和HTTP/2.0的通信。envoy推荐使用HTTP/2.0来实现所有envoy之间的连接，这样可以尽量使用多路复用技术实现多个请求和应答的共有一个链接</li>
+<li>提供HTTP L7路由功能，在HTTP模式下，envoy提供的HTTP路由子系统可以基于HTTP路径、authority, 内容类型, 运行时等字段实现HTTP请求的路由和重定向。这个功能在envoy当作前端或者边缘网关亦或是构建一个service mesh的服务时非常有用。</li>
+<li>提供对gRPC的支持，这是一个激动人心的功能，部分对于HTTP性能望而却步的公司，对于gRPC的需求就很强烈了。目前Nginx最新版本也支持了gRPC的代理，但是目前能够实现的功能有限。envoy 支持被 gRPC 请求和响应的作为路由和负载均衡底层的所有 HTTP/2 功能。</li>
+<li>服务发现，envoy 通过一种服务发现服务（service discovery service，就是SDS API）的方式支持多种服务发现方式，包括异步 DNS 解析和基于 REST 的查找。envoy支持通过REST API以及异步DNS的方式进行服务发现</li>
+<li>健康检查，envoy 包含了一个健康检查子系统，可以选择对上游服务集群执行主动健康检查。然后，envoy 联合使用服务发现和健康检查信息来确定健康的负载均衡目标。envoy 还通过异常检测子系统支持被动健康检查。</li>
+<li>负载均衡，负载均衡是分布式系统中不同组件之间的一个复杂问题。由于 envoy 是一个独立代理而不是库，因此可以独立实现高级负载负载以供任何应用程序访问。目前，envoy 支持自动重试 、熔断、通过外部速率限制服务的全局速率限制、请求映射和异常点检测。</li>
+<li>前端/边缘代理支持：尽管 envoy 主要设计用来作为一个服务间的通信系统，但在系统边缘使用相同的软件也是大有好处的（可观察性、管理、相同的服务发现和负载均衡算法等）。envoy 包含足够多的功能，使其可作为大多数现代 Web 应用程序的边缘代理。这包括 TLS 终止、HTTP/1.1 和 HTTP/2 支持，以及 HTTP L7 路由。</li>
+<li>最佳的可观察性： envoy 的主要目标是使网络透明。但是，问题在网络层面和应用层面都可能会出现。envoy 包含对所有子系统强大的统计功能支持。目前支持 statsd（和兼容的提供程序）作为统计信息接收器，但是插入不同的接收器并不困难。统计信息也可以通过管理端口查看。envoy 还通过第三方提供商支持分布式追踪。</li>
+<li>动态配置：envoy 可以选择使用动态配置 API 的分层集合。如果需要，实现者可以使用这些 API 来构建复杂的集中管理部署。</li>
 </ul>
-<h1 id="Envoy常用部署方式"><a href="#Envoy常用部署方式" class="headerlink" title="Envoy常用部署方式"></a>Envoy常用部署方式</h1><h2 id="service2service通信"><a href="#service2service通信" class="headerlink" title="service2service通信"></a>service2service通信</h2><p><img src="/images/servicemesh/3-1.png" alt="service2service通信" title="service2service通信"><br>&emsp;&emsp;这是Envoy的最简单的部署方式，每个Envoy和应用程序部署在一起组成一个服务集群（sidecar部署模式），在这个模型下service到service的网络流程编程service-&gt;envoy-&gt;envoy-&gt;service，两边的作为sidecar的envoy会配置有进入流量的ingress监听器和出口流量的egress监听器。应用通过egress监听器和外部服务进行交互，例如访问外部某个服务集群时，调用<a href="http://localhost:9001.然后HTTP和gRPC通过" target="_blank" rel="external">http://localhost:9001.然后HTTP和gRPC通过</a> HTTP/1.1 host 头或 HTTP/2:authority 头来表示请求指向哪个远程集群。envoy根据xDS中配置的相关信息，进行服务发现、负载均衡、限速等功能。envoy通过ingress listener管理外部服务集群流入流量，例如可以指定将访问<a href="http://localhost:9211的流量，根据负载均衡的相关需求负载到本地服务上，并且本地的Envoy还是执行缓存和熔断等机制。大家可以发现通过sidecar模式，所有服务都只会和本地的envoy打交道。外部服务的网络架构和逻辑拓扑对于服务来讲都是透明的，envoy会在通信中默认使用HTTP/2协议进行承载，哪怕本地服务到envoy的出口流量使用的是HTTP/1.1协议" target="_blank" rel="external">http://localhost:9211的流量，根据负载均衡的相关需求负载到本地服务上，并且本地的Envoy还是执行缓存和熔断等机制。大家可以发现通过sidecar模式，所有服务都只会和本地的envoy打交道。外部服务的网络架构和逻辑拓扑对于服务来讲都是透明的，envoy会在通信中默认使用HTTP/2协议进行承载，哪怕本地服务到envoy的出口流量使用的是HTTP/1.1协议</a></p>
-<h2 id="前端-边缘代理-service2service通信"><a href="#前端-边缘代理-service2service通信" class="headerlink" title="前端/边缘代理+service2service通信"></a>前端/边缘代理+service2service通信</h2><p><img src="/images/servicemesh/3-2.png" alt="前端/边缘代理+service2service通信" title="前端/边缘代理+service2service通信"><br>&emsp;&emsp;此类部署模式增加一个单独部署的前端envoy代理，但是其路由发现机制、服务发现机制都和第一种差不多，这个的前端/边缘代理有点类似kubernetes里面的ingress controller的概念</p>
-<h2 id="前端-边缘代理-双向代理-service2service代理"><a href="#前端-边缘代理-双向代理-service2service代理" class="headerlink" title="前端/边缘代理+双向代理+service2service代理"></a>前端/边缘代理+双向代理+service2service代理</h2><p><img src="/images/servicemesh/3-3.png" alt="前端/边缘代理+双向代理+service2service代理" title="前端/边缘代理+双向代理+service2service代理"><br>&emsp;&emsp;在此类部署类型里面一个前端代理和一个另外的一个envoy集群组成的所谓的双向代理，双向代理最主要的目的就是在近用户端就终止掉客户端请求以及TLS连接，然后通过近用户端的前端代理通过可信的HTTP/2连接将数据传输至区域2的envoy前端代理。使用前端代理最主要的目的就是可以让客户端发起请求的TLS的握手时间更短、TCP慢启动的速度更快、更小的丢包效率。</p>
+<h1 id="envoy常用部署类型"><a href="#envoy常用部署类型" class="headerlink" title="envoy常用部署类型"></a>envoy常用部署类型</h1><h2 id="部署类型一：service2service通信"><a href="#部署类型一：service2service通信" class="headerlink" title="部署类型一：service2service通信"></a>部署类型一：service2service通信</h2><p><img src="../images/servicemesh/3-1.png" alt="service2service通信" title="service2service通信"><br>&emsp;&emsp;这是envoy的最简单的部署方式，每个envoy和应用程序部署在一起组成一个服务集群（sidecar部署模式），在这个模型下service到service的网络流程编程service-&gt;envoy-&gt;envoy-&gt;service，两边的作为sidecar的envoy会配置有进入流量的ingress监听器和出口流量的egress监听器。应用通过egress监听器和外部服务进行交互，例如访问外部某个服务集群时，调用localhost:9001然后HTTP和gRPC通过 HTTP/1.1 host 头或 HTTP/2:authority 头来表示请求指向哪个远程集群。envoy根据xDS中配置的相关信息，进行服务发现、负载均衡、限速等功能。envoy通过ingress listener管理外部服务集群流入流量，例如可以指定将访问localhost:9211 的流量，根据负载均衡的相关需求负载到本地服务上，并且本地的envoy还是执行缓存和熔断等机制。大家可以发现通过sidecar模式，所有服务都只会和本地的envoy打交道。外部服务的网络架构和逻辑拓扑对于服务来讲都是透明的，envoy会在通信中默认使用HTTP/2协议进行承载，哪怕本地服务到envoy的出口流量使用的是HTTP/1.1协议。</p>
+<h2 id="部署类型二：前端-边缘代理-service2service通信"><a href="#部署类型二：前端-边缘代理-service2service通信" class="headerlink" title="部署类型二：前端/边缘代理+service2service通信"></a>部署类型二：前端/边缘代理+service2service通信</h2><p><img src="../images/servicemesh/3-2.png" alt="前端/边缘代理+service2service通信" title="前端/边缘代理+service2service通信"><br>&emsp;&emsp;此类部署模式增加一个单独部署的前端envoy代理，但是其路由发现机制、服务发现机制都和第一种差不多，这个的前端/边缘代理有点类似kubernetes里面的ingress controller的概念</p>
+<h2 id="部署类型二：前端-边缘代理-双向代理-service2service代理"><a href="#部署类型二：前端-边缘代理-双向代理-service2service代理" class="headerlink" title="部署类型二：前端/边缘代理+双向代理+service2service代理"></a>部署类型二：前端/边缘代理+双向代理+service2service代理</h2><p><img src="../images/servicemesh/3-3.png" alt="前端/边缘代理+双向代理+service2service代理" title="前端/边缘代理+双向代理+service2service代理"></p>
+<p>&emsp;&emsp;在此部署类型里面，一个前端代理和一个另外的一个envoy集群组成的所谓的双向代理，双向代理最主要的目的就是在近用户端就终止掉客户端请求以及TLS连接，然后通过近用户端的前端代理通过可信的HTTP/2连接将数据传输至区域2的envoy前端代理。使用前端代理最主要的目的就是可以让客户端发起请求的TLS的握手时间更短、TCP慢启动的速度更快、更小的丢包效率<br>&emsp;&emsp;在此部署类型里面，一个前端代理和一个另外的一个envoy集群组成的所谓的双向代理，双向代理最主要的目的就是在近用户端就终止掉客户端请求以及TLS连接，然后通过近用户端的前端代理通过可信的HTTP/2连接将数据传输至区域2的envoy前端代理。使用前端代理最主要的目的就是可以让客户端发起请求的TLS的握手时间更短、TCP慢启动的速度更快、更小的丢包效率</p>
 
       
     </div>
@@ -414,6 +416,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/16/姜蜀黍讲TCP协议之第一回/" rel="prev" title="姜蜀黍讲TCP协议之第一回">
+                姜蜀黍讲TCP协议之第一回 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
